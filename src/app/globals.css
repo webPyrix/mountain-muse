@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: #0e0e0e;
+  color: #111;
+  /* overflow-x: hidden; */
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -23,4 +38,35 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+
+p{
+  font-size: clamp(12px , 1vw, 13px);
+  line-height: clamp(1.2rem, 2vw, 1.6rem);
+  font-weight: 300;
+}
+
+h1{
+  font-size: clamp(50px, 5vw, 80px);
+  line-height: 0.9;
+  letter-spacing: 2px;
+}
+
+h2{
+  font-size: clamp(50px, 9vw, 90px);
+  line-height: 0.92;
+  letter-spacing: 2px;
+}
+
+h3{
+  font-size: clamp(22px, 2.5vw, 32px);
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+}
+
+.sub_head{
+  font-size: clamp(7px, 1vw, 9px);
+  letter-spacing: 5px;
+  text-transform: uppercase;
 }
