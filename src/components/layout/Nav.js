@@ -1,7 +1,41 @@
 "use client";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import { ButtonPrimary } from "@/components/ui/Button";
 
+const navLinks = [
+    { label: "Home", href: "/" },
+    { label: "Models", href: "/models" },
+    { label: "Line Production", href: "/line-production" },
+    { label: "Creative Studio", href: "/creative-studio" },
+    { label: "About M3", href: "/about" },
+];
+
 export default function Nav() {
+    const [hidden, setHidden] = useState(false);
+
+    useEffect(() => {
+        const threshold = 80;
+        let ticking = false;
+
+        const handleScroll = () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const currentY = window.scrollY;
+
+                    setHidden(currentY >= threshold);
+
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        handleScroll();
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     return (
         <>
             <style>
@@ -10,19 +44,24 @@ export default function Nav() {
                   --site-px: 52px;
                 }
 
-                /* NAV */
                 .nav-bar {
                   position: fixed;
                   top: 0; left: 0; right: 0;
                   z-index: 200;
                   padding: 0px var(--site-px);
                   color: #fff;
+                  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.35s ease;
+                }
+                .nav-bar.nav-hidden {
+                  transform: translateY(-100%);
+                  opacity: 0;
+                  pointer-events: none;
                 }
                 .nav-logo img {
                   height: 100px;
                 }
 
-                .nav-links { display: flex; gap: 40px; list-style: none; }
+                .nav-links { display: flex; gap: 32px; list-style: none; }
                 .nav-links a {
                   font-size: 10px;
                   letter-spacing: 3px;
@@ -31,10 +70,10 @@ export default function Nav() {
                   text-decoration: none;
                   opacity: 0.7;
                   transition: opacity 0.25s;
+                  white-space: nowrap;
                 }
                 .nav-links a:hover { opacity: 1; }
 
-                /* Burger in nav — hidden on desktop */
                 .nav-burger-btn {
                   display: none;
                   flex-direction: column;
@@ -54,8 +93,7 @@ export default function Nav() {
                 .nav-burger-btn span:nth-child(2) { width: 16px; }
                 .nav-burger-btn:hover span:nth-child(2) { width: 24px; }
 
-                /* ≤1000px: hide links & contact, show burger */
-                @media (max-width: 1000px) {
+                @media (max-width: 1100px) {
                   :root { --site-px: 36px; }
                   .nav-links        { display: none; }
                   .nav-contact-btn  { display: none; }
@@ -70,23 +108,22 @@ export default function Nav() {
                 `}
             </style>
 
-            <nav className="nav-bar grid grid-cols-3">
+            <nav className={`nav-bar grid grid-cols-3 ${hidden ? "nav-hidden" : ""}`}>
                 <div className="nav-logo flex">
                     <img src="/images/logo.png" alt="Logo" />
                 </div>
 
-                {/* Center links — hidden ≤1000px */}
                 <ul className="nav-links flex items-center justify-center">
-                    {["Home", "About", "Services", "Portfolio"].map((l) => (
-                        <li key={l}><a href="#">{l}</a></li>
+                    {navLinks.map((l) => (
+                        <li key={l.label}>
+                            <Link href={l.href}>{l.label}</Link>
+                        </li>
                     ))}
                 </ul>
 
-                {/* Right slot */}
                 <div className="nav_btn flex items-center justify-end gap-4">
-                    {/* Contact — hidden ≤1000px */}
                     <div className="nav-contact-btn">
-                        <ButtonPrimary label={"contact us"} color="#ffffff" />
+                        <ButtonPrimary label={"contact us"} color="#ffffff" href="/contact" />
                     </div>
                 </div>
             </nav>

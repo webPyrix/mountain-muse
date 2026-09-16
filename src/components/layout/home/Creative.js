@@ -36,7 +36,7 @@ export default function creative() {
       display: flex;
       align-items: center;
       gap: 24px;
-      padding: 0 52px;
+      padding: 0 var(--site-px, 52px);
       height: 64px;
       position: relative;
       z-index: 2;
@@ -114,7 +114,7 @@ export default function creative() {
 
     /* ── Right — Content Panel ── */
     .cs-content {
-      padding: 140px 72px 180px 80px;
+      padding: 140px var(--site-px, 72px) 180px var(--site-px, 80px);
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -147,7 +147,7 @@ export default function creative() {
       -webkit-text-stroke: 1px #aaa;
     }
 
-    /* Hook line — matched to lp-body / models-subtitle sizing */
+    /* Hook line */
     .cs-hook {
       color: rgba(0,0,0,0.8);
       margin-bottom: 64px;
@@ -211,7 +211,6 @@ export default function creative() {
       color: #111;
     }
 
-    /* Paragraph — matched to lp-body: 14px, 1.95, #555, weight 300 */
     .cs-bio-text {
       color: #555;
     }
@@ -266,7 +265,7 @@ export default function creative() {
     }
 
     .cs-offering-item {
-      padding: 64px 52px;
+      padding: 64px var(--site-px, 52px);
       border-right: 1px solid rgba(17,17,17,0.08);
       position: relative;
       transition: background 0.4s ease;
@@ -297,7 +296,6 @@ export default function creative() {
       color: #a0a0a0;
     }
 
-    /* Offering desc — matched to 13px models-subtitle / lp-service-name style */
     .cs-offering-desc {
       color: rgba(0,0,0,0.8);
     }
@@ -323,21 +321,34 @@ export default function creative() {
     @media (max-width: 1024px) {
       .cs-body { grid-template-columns: 1fr; }
       .cs-visual { position: relative; height: 60vh; }
-      .cs-content { padding: 80px 40px; }
+      .cs-content { padding: 80px var(--site-px, 40px); }
       .cs-offerings { grid-template-columns: 1fr; }
       .cs-offering-item { border-right: none; border-bottom: 1px solid rgba(17,17,17,0.08); }
     }
 
+    @media (max-width: 800px) {
+      .cs-headline, .cs-hook, .cs-divider, .cs-closing{
+        margin-bottom: 40px;
+      }
+
+      .cs-offering-item{
+        padding: 50px var(--site-px, 50px);
+      }
+    }
+
     @media (max-width: 640px) {
-      .cs-top-rule, .cs-bottom-rule { padding: 0 24px; }
-      .cs-content { padding: 60px 24px; }
-      .cs-offering-item { padding: 48px 24px; }
+      .cs-top-rule, .cs-bottom-rule { padding: 0 var(--site-px, 24px); }
+      .cs-content { padding: 60px var(--site-px, 24px); }
+      .cs-offering-item { padding: 48px var(--site-px, 24px); }
+      .cs-closing { padding: 32px 24px 28px; }
+      .cs-hook { padding-left: 18px; }
+      .cs-vertical-label { display: none; }
     }
   `}</style>
 
                 {/* Top Rule */}
                 <div className="cs-top-rule">
-                    <span className="sub_head cs-tag">04 — Creative Studio</span>
+                    <span className={`sub_head cs-tag ${poppins.className}`}>04 — Creative</span>
                 </div>
 
                 {/* Main Body */}
@@ -350,31 +361,11 @@ export default function creative() {
                             <div className="cs-visual-bg" />
                             <img
                                 className="cs-visual-img"
-                                src="/images/index/about.jpeg"
+                                src="/images/index/creative.jpg"
                                 alt="Creative Studio — Mountain Muse"
                             />
-                            <span className="cs-vertical-label">Mountain Muse — Creative Studio — Ladakh</span>
-                            <div className={`cs-visual-watermark ${playfair.className}`}>Studio</div>
-                            {/* <div className="cs-founders-bar">
-        <div className="cs-founder-chip">
-          <div className="cs-founder-avatar">
-            <img src="/images/models/model7.PNG" alt="Pema" />
-          </div>
-          <div>
-            <div className={`cs-founder-name ${poppins.className}`}>Pema</div>
-            <div className={`cs-founder-role ${poppins.className}`}>Talent & Network</div>
-          </div>
-        </div>
-        <div className="cs-founder-chip">
-          <div className="cs-founder-avatar">
-            <img src="/images/models/model2.jpeg" alt="Rahul" />
-          </div>
-          <div>
-            <div className={`cs-founder-name ${poppins.className}`}>Rahul</div>
-            <div className={`cs-founder-role ${poppins.className}`}>Creative Direction</div>
-          </div>
-        </div>
-      </div> */}
+                            <span className={`cs-vertical-label ${poppins.className}`}>Mountain Muse — Creative — Ladakh</span>
+                            <div className={`cs-visual-watermark ${playfair.className}`}>Creative</div>
                         </div>
                     </div>
 
@@ -382,49 +373,17 @@ export default function creative() {
                     <div className="cs-content">
 
                         <div className="cs-headline">
-                            <h2 className={`cs-title ${playfair.className}`}>
-                                Creative <br /> Studio
+                            <h2 className={`cs-title heading-sub ${playfair.className}`}>
+                                Creative
                             </h2>
                         </div>
 
-                        <p className={`cs-hook ${poppins.className}`}>
-                            Most brands that come to Ladakh get a location.<br />
-                            They leave with <strong>pretty pictures and not much else.</strong><br /><br />
-                            The Creative Studio exists for brands that want more than that.
+                        <p className={`cs-hook para ${poppins.className}`}>
+                            
+                            Creative direction, campaign development, art direction, brand storytelling,
+                            and visual production thoughtfully crafted to create compelling visuals and refined
+                            narratives that resonate beyond the frame.
                         </p>
-
-                        <div className="cs-divider">
-                            <span className={`sub_head cs-divider-label ${poppins.className}`}>The Founders</span>
-                            <div className="cs-divider-line" />
-                        </div>
-
-                        <div className="cs-bios">
-                            <div className="cs-bio">
-                                <div className={`cs-bio-index ${poppins.className}`}>01</div>
-                                <div>
-                                    <div className={`sub_head cs-bio-name ${poppins.className}`}><span>Pema</span> — Talent & Network</div>
-                                    <p className={`cs-bio-text ${poppins.className}`}>
-                                        Pema founded Mountain Muse after years of modelling and building one of the
-                                        only established talent networks in Ladakh. She knows <em>this landscape and the
-                                            people in it better than anyone.</em>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="cs-bio">
-                                <div className={`cs-bio-index ${poppins.className}`}>02</div>
-                                <div>
-                                    <div className={`sub_head cs-bio-name ${poppins.className}`}><span>Rahul</span> — Creative Direction</div>
-                                    <p className={`cs-bio-text ${poppins.className}`}>
-                                        Rahul spent a decade building and running Bombay Trooper, one of India's most
-                                        recognised outdoor D2C brands. He has shot on Everest, <em>skied the Himalayas,</em>
-                                        and spent years understanding what it takes to turn outdoor environments into brand
-                                        stories that actually perform. He brings the creative direction, the brand thinking,
-                                        and the structure to make sure every project we take on is built to mean something.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
 
                         <div className="cs-divider">
                             <span className={`sub_head cs-divider-label ${poppins.className}`}>The Work</span>
@@ -432,10 +391,9 @@ export default function creative() {
                         </div>
 
                         <div className="cs-closing">
-                            <p className={`cs-closing-text ${playfair.className}`}>
-                                Together we take on a <strong>small number of projects each season.</strong> Full brand
-                                campaigns, outdoor films, and visual content built around Ladakh — rather than
-                                just shot in front of it. <strong>Concept to delivery, handled end to end.</strong>
+                            <p className={`cs-closing-text para ${playfair.className}`}>
+                                We create high altitude campaigns and visual stories across Ladakh’s landscapes, blending creative direction, 
+                                photography, talent coordination, and curated locations into seamless productions for brands, editorials, and digital campaigns.
                             </p>
                         </div>
 
@@ -457,7 +415,7 @@ export default function creative() {
                         {
                             num: "02",
                             title: <>Outdoor<br /><em>Films</em></>,
-                            desc: "Documentary and branded outdoor films. Shot in extreme conditions with crews that know the terrain — because we built them."
+                            desc: "Documentary and outdoor films. Shot in extreme conditions with crews that know the terrain — because we built them."
                         },
                         {
                             num: "03",
@@ -467,8 +425,8 @@ export default function creative() {
                     ].map((item, i) => (
                         <div key={i} className="cs-offering-item">
                             <div className={`cs-offering-num ${poppins.className}`}>{item.num}</div>
-                            <h3 className={`cs-offering-title ${playfair.className}`}>{item.title}</h3>
-                            <p className={`cs-offering-desc ${poppins.className}`}>{item.desc}</p>
+                            <h3 className={`cs-offering-title heading-h3 ${playfair.className}`}>{item.title}</h3>
+                            <p className={`cs-offering-desc para ${poppins.className}`}>{item.desc}</p>
                             <span className="cs-offering-arrow">↗</span>
                         </div>
                     ))}

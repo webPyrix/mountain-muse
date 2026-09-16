@@ -5,54 +5,48 @@ import { motion, AnimatePresence } from "framer-motion";
 import Menu from "@/components/layout/Menu";
 import { ButtonPrimary, ButtonGhost } from "@/components/ui/Button";
 
-
 // Fonts
 import { playfair, poppins } from '@/libs/Fonts';
 
-
-const videos = [
-    { src: "/videos/model2.mp4", label: "01 — MODELS", title: "Models.", tagline: "Curated talent for global campaigns" },
-    { src: "/videos/model1.mp4", label: "02 — PRODUCTION", title: "Production.", tagline: "Seamless execution in extreme locations" },
-    { src: "/videos/model2.mp4", label: "03 — Creative", title: "Creative Studio.", tagline: "Crafting stories that leave a mark" },
+const slides = [
+    { label: "01 — MODELS", title: "Models.", tagline: "Distinctive faces from across Ladakh." },
+    { label: "02 — PRODUCTION", title: "Production.", tagline: "End to end line production support" },
+    { label: "03 — Creative", title: "Creative.", tagline: "Creative direction and visual storytelling" },
 ];
-
 
 export default function Hero() {
 
     useEffect(() => {
         const photoImg = document.querySelector('.photo_sec img');
-
         if (!photoImg) return;
-
         gsap.to(photoImg, {
-            yPercent: -1,           // How much the image moves up (adjust this value)
+            yPercent: -20,
             ease: "none",
             scrollTrigger: {
                 trigger: ".photo_sec",
-                start: "top bottom",     // Start when the top of the section reaches the bottom of viewport
-                end: "bottom top",       // End when the bottom of the section leaves the top of viewport
-                scrub: 1.2,              // Smoothness (higher = smoother but more delayed)
-                // markers: true,        // Uncomment to debug the trigger area
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1.2,
             },
         });
     }, []);
 
     const heroRef = useRef(null);
     const videoWrapRef = useRef(null);
-    const videoRefs = useRef([]);
-    const modelsSectionRef = useRef(null);   // ← FIXED: Added this missing ref
 
     const [activeIdx, setActiveIdx] = useState(0);
     const [transitioning, setTransitioning] = useState(false);
 
-    // New: Auto timer reference
     const autoTimerRef = useRef(null);
 
-
-    // GSAP scroll animation - UNCHANGED
+    // GSAP scroll animation — now gated: only runs on screens >=900px.
+    // Below that, the video stays full screen and static — no
+    // shrink/move-on-scroll effect, keeps small screens simple.
+    // Nav hide-on-scroll is handled centrally in Nav.js — not here.
     useEffect(() => {
         const mm = gsap.matchMedia();
-        mm.add("(min-width: 1px)", () => {
+
+        mm.add("(min-width: 900px)", () => {
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: heroRef.current,
@@ -62,11 +56,8 @@ export default function Hero() {
                 },
             });
 
-            // Fade out entire hero UI wrapper at once
             tl.to(".hero-ui", { opacity: 0, duration: 0.4, ease: "power2.out" }, 0);
-            tl.to(".nav-bar", { y: -80, opacity: 0, duration: 0.35 }, 0);
 
-            // Video shrinks from full-screen to a tall centred card
             tl.to(videoWrapRef.current, {
                 width: "40vw",
                 height: "80vh",
@@ -78,7 +69,6 @@ export default function Hero() {
                 duration: 0.7,
             }, 0.25);
 
-            // Small label fades in once video settled as a card
             tl.to(".video-landing-label", {
                 opacity: 1,
                 y: 0,
@@ -86,22 +76,27 @@ export default function Hero() {
                 ease: "power2.out",
             }, 0.88);
         });
+
+        // Below 700px — no scroll-driven transform at all, just a
+        // simple static full-screen video. Nothing to register here.
+        mm.add("(max-width: 699px)", () => {
+            // intentionally empty — static state handled entirely by CSS
+        });
+
         return () => mm.revert();
     }, []);
 
-    // Auto change video every 8 seconds
     const startAutoTimer = useCallback(() => {
-        if (autoTimerRef.current) clearTimeout(cautoTimerRef.current);
+        if (autoTimerRef.current) clearTimeout(autoTimerRef.current);
 
         autoTimerRef.current = setTimeout(() => {
             if (!transitioning) {
-                const next = (activeIdx + 1) % videos.length;
+                const next = (activeIdx + 1) % slides.length;
                 setActiveIdx(next);
             }
         }, 10000);
     }, [activeIdx, transitioning]);
 
-    // Clear timer
     const clearAutoTimer = useCallback(() => {
         if (autoTimerRef.current) {
             clearTimeout(autoTimerRef.current);
@@ -109,13 +104,12 @@ export default function Hero() {
         }
     }, []);
 
-    // Manual change video with arrows
-    const changeVideo = (dir) => {
+    const changeSlide = (dir) => {
         if (transitioning) return;
         setTransitioning(true);
         clearAutoTimer();
 
-        const next = (activeIdx + dir + videos.length) % videos.length;
+        const next = (activeIdx + dir + slides.length) % slides.length;
 
         setTimeout(() => {
             setActiveIdx(next);
@@ -126,8 +120,7 @@ export default function Hero() {
         }, 180);
     };
 
-    // Go to specific video via dots
-    const goToVideo = (index) => {
+    const goToSlide = (index) => {
         if (transitioning || index === activeIdx) return;
         setTransitioning(true);
         clearAutoTimer();
@@ -141,36 +134,23 @@ export default function Hero() {
         }, 180);
     };
 
-    // Start auto timer when component mounts and when activeIdx changes
     useEffect(() => {
         startAutoTimer();
         return () => clearAutoTimer();
     }, [startAutoTimer]);
+
     return (
         <>
-
             <style>{`
-        
-                
-        
-                /* HERO — 200vh gives scroll room while section is un-pinned */
                 .hero-section {
                   position: relative;
                   width: 100vw;
                   height: 180vh;
                   background: #0e0e0e;
                 }
-        
-                .hero-section::before{
-                  content: "";
-                  height: 100%;
-                  width: 100%;
-                  left: 0;
-                  top: 0;
-                  
-                }
-        
-                /* VIDEO WRAP — absolute, animates via GSAP */
+
+                
+
                 .video-wrap {
                   position: absolute;
                   top: 0;
@@ -182,6 +162,7 @@ export default function Hero() {
                   z-index: 2;
                   will-change: top, left, width, height, border-radius;
                 }
+
                 .video-item {
                   position: absolute;
                   inset: 0;
@@ -189,6 +170,7 @@ export default function Hero() {
                   height: 100%;
                   object-fit: cover;
                 }
+
                 .video-overlay {
                   position: absolute;
                   inset: 0;
@@ -200,23 +182,24 @@ export default function Hero() {
                   );
                   z-index: 3;
                 }
+
                 .video-landing-label {
                   position: absolute;
                   bottom: 28px;
                   left: 50%;
                   transform: translateX(-50%);
                   z-index: 10;
-                  font-size: 9px;
-                  letter-spacing: 5px;
-                  text-transform: uppercase;
                   color: rgba(255,255,255,0.55);
                   white-space: nowrap;
                   opacity: 0;
                   translate: 0 12px;
                   pointer-events: none;
                 }
-        
-                /* ── HERO UI WRAPPER ── */
+                @media (max-width: 699px) {
+                  /* No scroll animation to reveal this label on small screens — hide it */
+                  .video-landing-label { display: none; }
+                }
+
                 .hero-ui {
                   position: absolute;
                   top: 0;
@@ -229,8 +212,7 @@ export default function Hero() {
                 .hero-ui > * {
                   pointer-events: auto;
                 }
-        
-                /* HEADING — left, vertically centred */
+
                 .hero-heading {
                   position: absolute;
                   left: 52px;
@@ -240,17 +222,13 @@ export default function Hero() {
                 }
                 .hero-heading .eyebrow {
                   display: block;
-                  font-size: 9px;
-                  letter-spacing: 5px;
-                  text-transform: uppercase;
                   color: rgba(255,255,255,0.8);
                   margin-bottom: 18px;
                 }
                 .hero-heading h1 {
                   color: #fff;
                 }
-        
-                /* PARAGRAPH — right, vertically centred */
+
                 .hero-para {
                   position: absolute;
                   right: 52px;
@@ -274,8 +252,29 @@ export default function Hero() {
                   transition: border-color 0.25s;
                 }
                 .hero-para .cta-link:hover { border-color: #fff; }
-        
-                /* CONTROLS — bottom centre */
+
+                @media (max-width: 699px) {
+                  .hero-heading, .hero-para {
+                    position: static;
+                    transform: none;
+                    max-width: 100%;
+                    text-align: left;
+                    margin: 0 auto;
+                  }
+                  .hero-heading {
+                    top: auto;
+                    margin-top: 40vh;
+                    padding: 0 24px;
+                  }
+                  .hero-para {
+                    text-align: left;
+                    padding: 0 24px;
+                    margin-top: 20px;
+                  }
+
+                  
+                }
+
                 .video-controls {
                   position: absolute;
                   bottom: 48px;
@@ -301,13 +300,10 @@ export default function Hero() {
                 }
                 .ctrl-btn:hover { background: rgba(255,255,255,0.12); }
                 .ctrl-label {
-                  font-size: 10px;
-                  letter-spacing: 3px;
                   color: rgba(255,255,255,0.8);
                   margin: 0 14px;
                 }
-        
-                /* DOTS — bottom right */
+
                 .video-dots {
                   position: absolute;
                   bottom: 48px;
@@ -325,8 +321,7 @@ export default function Hero() {
                   transition: all 0.25s;
                 }
                 .dot.active { background: #fff; transform: scale(1.45); }
-        
-                /* SCROLL HINT — bottom left */
+
                 .scroll-hint {
                   position: absolute;
                   bottom: 48px;
@@ -342,13 +337,9 @@ export default function Hero() {
                   background: rgba(255,255,255,0.7);
                 }
                 .scroll-text {
-                  font-size: 8px;
-                  letter-spacing: 4px;
-                  text-transform: uppercase;
                   color: rgba(255,255,255,0.8);
                 }
-        
-                /* SHOWCASE */
+
                 .showcase-section {
                   position: relative;
                   width: 100vw;
@@ -368,37 +359,34 @@ export default function Hero() {
                   gap: 24px;
                 }
                 .showcase-tag {
-                  
                   color: rgba(255,255,255,0.8);
                 }
                 .showcase-title {
                   color: #fff;
                 }
-        
-                .showcase-desc {                  
+                .showcase-desc {
                   color: white;
                   max-width: 70%;
                 }
-        
+
                 .photo_sec {
-                  height: 900px;           /* or whatever height you prefer */
+                  height: 900px;
                   margin-top: 100px;
                   position: relative;
-                  overflow: hidden;        /* ← Important: clips the image */
+                  overflow: hidden;
                   width: 100vw;
                 }
-        
                 .photo_sec img {
                   width: 100%;
-                  height: 180%;            /* ← Make image taller than container for parallax room */
+                  height: 180%;
                   object-fit: cover;
                   position: absolute;
-                  top: -10%;               /* ← Start slightly above so it has space to move up */
+                  top: -10%;
                   left: 0;
-                  will-change: transform;  /* Better performance */
+                  will-change: transform;
+                  object-position: center;
                 }
-        
-                /* ABOUT */
+
                 .about-section {
                   position: relative;
                   background: #ffffff;
@@ -417,50 +405,77 @@ export default function Hero() {
                   padding-bottom: 24px;
                   border-bottom: 1px solid rgba(17,17,17,0.08);
                 }
-        
                 .about-main {
                   display: grid;
                   grid-template-columns: 1fr 1fr;
                   gap: 80px;
                   align-items: start;
                 }
-        
-        
-              `}</style>
 
 
+
+                /* Below 700px — hero is a simple, static full-screen block.
+                   No 180vh scroll runway needed since there's no shrink animation. */
+                @media (max-width: 899px) {
+                  .hero-section {
+                    height: 100vh;
+                  }
+
+                  .showcase-inner{
+                    padding: 100px 50px 50px 50px;
+                    max-width: 100%;
+                  }
+
+                  .showcase-desc{
+                    max-width: 85%;
+                  }
+
+                  .scroll-hint{
+                    left: 25px
+                  }
+                    .video-dots {
+                        right: 25px;
+                        bottom: 63px;
+                    }
+                }
+
+
+
+                @media (max-width: 499px) {
+                  .showcase-inner{
+                    padding: 100px 10px 50px 10px;
+                    max-width: 100%;
+                  }
+
+                  .showcase-desc{
+                    max-width: 95%;
+                  }
+
+                  .photo_sec{
+                    height: 600px;
+                  }
+                }
+
+
+            `}</style>
 
             <Menu />
 
             {/* HERO */}
             <section className="hero-section" ref={heroRef}>
 
-                {/* Video layer */}
+                {/* Single video — always playing */}
                 <div className="video-wrap" ref={videoWrapRef}>
-                    <AnimatePresence mode="wait">
-                        {videos.map((video, i) => (
-                            <motion.video
-                                key={i}
-                                ref={(el) => (videoRefs.current[i] = el)}
-                                className="video-item"
-                                src={video.src}
-                                autoPlay muted loop playsInline
-                                initial={{ opacity: 0, scale: 1.1, filter: "blur(14px)" }}
-                                animate={{
-                                    opacity: i === activeIdx ? 1 : 0,
-                                    scale: i === activeIdx ? 1 : 1.07,
-                                    filter: i === activeIdx ? "blur(0px)" : "blur(14px)",
-                                }}
-                                exit={{ opacity: 0, scale: 0.94, filter: "blur(8px)" }}
-                                transition={{ duration: 0.9, ease: [0.23, 1, 0.32, 1] }}
-                            />
-                        ))}
-                    </AnimatePresence>
+                    <video
+                        className="video-item"
+                        src="/videos/shoot1.mp4"
+                        autoPlay muted loop playsInline
+                    />
                     <div className="video-overlay" />
-                    <span className="video-landing-label">{videos[activeIdx].label}</span>
+                    <span className={`video-landing-label sub_head ${poppins.className}`}>{slides[activeIdx].label}</span>
                 </div>
 
-                {/* HERO UI WRAPPER */}
+                {/* HERO UI — text still cycles through slides */}
                 <div className="hero-ui">
 
                     <div className="hero-heading">
@@ -472,9 +487,9 @@ export default function Hero() {
                                 exit={{ opacity: 0, y: -28 }}
                                 transition={{ duration: 0.6 }}
                             >
-                                <span className="eyebrow">{videos[activeIdx].label}</span>
-                                <h1 className={playfair.className}>
-                                    {videos[activeIdx].title}
+                                <span className={`eyebrow sub_head ${poppins.className}`}>{slides[activeIdx].label}</span>
+                                <h1 className={`heading-hero ${playfair.className}`}>
+                                    {slides[activeIdx].title}
                                 </h1>
                             </motion.div>
                         </AnimatePresence>
@@ -489,9 +504,8 @@ export default function Hero() {
                                 exit={{ opacity: 0, y: -22 }}
                                 transition={{ duration: 0.6, delay: 0.08 }}
                             >
-                                <p className={poppins.className}>
-                                    {videos[activeIdx].tagline}.
-                                    Pushing boundaries in brand, motion, and experience design.
+                                <p className={`para ${poppins.className}`}>
+                                    {slides[activeIdx].tagline}.
                                 </p>
                                 <ButtonGhost label={"Explore Work"} />
                             </motion.div>
@@ -499,46 +513,42 @@ export default function Hero() {
                     </div>
 
                     <div className="video-controls">
-                        <button className="ctrl-btn" onClick={() => changeVideo(-1)}>&#8249;</button>
-                        <span className="ctrl-label">0{activeIdx + 1} / 0{videos.length}</span>
-                        <button className="ctrl-btn" onClick={() => changeVideo(1)}>&#8250;</button>
+                        <button className="ctrl-btn" onClick={() => changeSlide(-1)}>&#8249;</button>
+                        <span className={`ctrl-label sub_head ${poppins.className}`}>0{activeIdx + 1} / 0{slides.length}</span>
+                        <button className="ctrl-btn" onClick={() => changeSlide(1)}>&#8250;</button>
                     </div>
 
                     <div className="video-dots">
-                        {videos.map((_, i) => (
+                        {slides.map((_, i) => (
                             <div
                                 key={i}
                                 className={`dot ${i === activeIdx ? "active" : ""}`}
-                                onClick={() => goToVideo(i)}
+                                onClick={() => goToSlide(i)}
                             />
                         ))}
                     </div>
 
                     <div className="scroll-hint">
-                        <span className="scroll-text">Scroll</span>
+                        <span className={`scroll-text sub_head ${poppins.className}`}>Scroll</span>
                         <div className="cta-scroll-bar" />
                     </div>
 
                 </div>
-
             </section>
-
-
 
             {/* SHOWCASE */}
             <section className="showcase-section">
                 <div className="showcase-inner">
-                    <span className="sub_head showcase-tag">Creative Studio — Est. 2018</span>
+                    <span className={`sub_head showcase-tag ${poppins.className}`}>Mountain Muse Management — Est. 2023</span>
 
-                    <h2 className={`showcase-title ${playfair.className}`}>
-                        From Talent to Execution
+                    <h2 className={`showcase-title heading-sub ${playfair.className}`}>
+                        If it's in Ladakh, it's M3
                     </h2>
 
-                    <p className={`showcase-desc ${poppins.className}`}>
-                        From curated models to seamless line production and creative direction,
-                        we deliver end-to-end solutions for brands and storytellers.
-                        Rooted in Ladakh, we combine local expertise with global standards
-                        to create visuals that leave a lasting impact.
+                    <p className={`showcase-desc para ${poppins.className}`}>
+                        Mountain Muse Management is a Ladakh-based talent, production, and creative company built for brands that want to do something real
+                        in one of the world's most extraordinary landscapes. We are the people who know this place, know how to work in it,
+                        and know how to turn it into something a brand can actually use.
                     </p>
                 </div>
                 <div className="photo_sec">

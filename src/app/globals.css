@@ -12,12 +12,20 @@ html,
 body {
   background: #0e0e0e;
   color: #111;
-  /* overflow-x: hidden; */
 }
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* ── Container widths — pick per section, not forced site-wide ── */
+  --container-narrow: 860px;   /* text-heavy blocks, quotes, intros */
+  --container-md: 1100px;      /* standard content sections */
+  --container-lg: 1240px;      /* main page container (About/Home baseline) */
+  --container-xl: 1440px;      /* wide layouts, e.g. become-a-model form */
+
+  /* ── Responsive side padding — scales smoothly instead of snapping at breakpoints ── */
+  --container-pad: clamp(20px, 4vw, 52px);
 }
 
 @theme inline {
@@ -40,33 +48,84 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-
-p{
-  font-size: clamp(12px , 1vw, 13px);
+p {
+  font-size: clamp(12px, 1vw, 13px);
   line-height: clamp(1.2rem, 2vw, 1.6rem);
   font-weight: 300;
 }
 
-h1{
+h1 {
   font-size: clamp(50px, 5vw, 80px);
   line-height: 0.9;
   letter-spacing: 2px;
 }
 
-h2{
+h2 {
   font-size: clamp(50px, 9vw, 90px);
   line-height: 0.92;
   letter-spacing: 2px;
 }
 
-h3{
+h3 {
   font-size: clamp(22px, 2.5vw, 32px);
   line-height: 1.1;
   letter-spacing: 0.5px;
 }
 
-.sub_head{
+.sub_head {
   font-size: clamp(7px, 1vw, 9px);
   letter-spacing: 5px;
   text-transform: uppercase;
+}
+
+/* ── Reusable typography classes — no color, size/spacing only ── */
+
+.heading-hero {
+  font-size: clamp(52px, 8vw, 110px);
+  line-height: 0.92;
+  letter-spacing: -0.5px;
+}
+
+.heading-sub {
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1;
+  letter-spacing: 0px;
+}
+
+.heading-h3 {
+  font-size: clamp(20px, 2.4vw, 30px);
+  line-height: 1.15;
+  letter-spacing: 0.3px;
+}
+
+.para {
+  font-size: clamp(13px, 1vw, 14px);
+  line-height: clamp(1.4rem, 2vw, 1.8rem);
+  font-weight: 300;
+}
+
+/* ── Reusable containers — pick the right one per section ── */
+
+.container-narrow {
+  max-width: var(--container-narrow);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+}
+
+.container-md {
+  max-width: var(--container-md);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+}
+
+.container-lg {
+  max-width: var(--container-lg);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+}
+
+.container-xl {
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
 }

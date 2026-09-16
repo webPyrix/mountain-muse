@@ -1,12 +1,14 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import { ButtonPrimary } from "@/components/ui/Button";
 
 const navLinks = [
-  { num: "01", label: "Home", sub: "Back to start" },
-  { num: "02", label: "About", sub: "Our story & team" },
-  { num: "03", label: "Services", sub: "What we offer" },
-  { num: "04", label: "Portfolio", sub: "Selected work" },
-  { num: "05", label: "Contact", sub: "Let's talk" },
+  { num: "01", label: "Home", sub: "Back to start", href: "/" },
+  { num: "02", label: "Models", sub: "Our talent roster", href: "/models" },
+  { num: "03", label: "Line Production", sub: "On-ground support", href: "/line-production" },
+  { num: "04", label: "Creative Studio", sub: "Visual storytelling", href: "/creative-studio" },
+  { num: "05", label: "About M3", sub: "Our story & team", href: "/about" },
 ];
 
 const socials = ["Instagram", "Behance", "LinkedIn", "Twitter"];
@@ -21,12 +23,10 @@ export default function Menu() {
 useEffect(() => {
     const checkScrolled = () => {
         const threshold = window.innerWidth <= 1000 ? 0 : 200;
-        
-        // Fixed: Use >= so button shows immediately on mobile/tablet
         setScrolled(window.scrollY >= threshold);
     };
 
-    checkScrolled(); // initial check
+    checkScrolled();
     window.addEventListener("scroll", checkScrolled, { passive: true });
     window.addEventListener("resize", checkScrolled, { passive: true });
 
@@ -80,7 +80,6 @@ useEffect(() => {
         .menu-scroll-btn {
           position: fixed;
           top: 32px;
-          // right: 52px;
           z-index: 9999;
           background: none;
           border: none;
@@ -94,7 +93,8 @@ useEffect(() => {
           transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1),
                       transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
           pointer-events: none;
-          right: var(--site-px, 52px);   /* ← was hardcoded 52px */
+          right: var(--site-px, 52px);
+          mix-blend-mode: difference;
         }
         .menu-scroll-btn.visible {
           opacity: 1;
@@ -230,7 +230,7 @@ useEffect(() => {
         .menu-overlay.open .menu-bg-text {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.60s; /* adjust for perfect sync */
+  transition-delay: 0.60s;
 }
 
 .menu-overlay.closing .menu-bg-text {
@@ -334,6 +334,7 @@ useEffect(() => {
           cursor: pointer;
           position: relative;
           transition: padding 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+          text-decoration: none;
         }
         .nav-item-inner:hover { padding-left: 16px; }
 
@@ -361,7 +362,7 @@ useEffect(() => {
         }
         .nav-link-title {
           font-family: 'Bebas Neue', sans-serif;
-          font-size: clamp(32px, 5vw, 66px);
+          font-size: clamp(28px, 4.4vw, 58px);
           letter-spacing: 3px;
           color: rgba(255, 255, 255, 0.82);
           line-height: 1;
@@ -417,6 +418,12 @@ useEffect(() => {
           transition-delay: 0s;
         }
 
+        .menu-footer-left {
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+        }
+
         .menu-socials { display: flex; gap: 24px; }
         .menu-socials a {
           font-size: 8px;
@@ -453,6 +460,7 @@ useEffect(() => {
           .menu-overlay { padding: 80px 32px 36px 32px; }
           .menu-scroll-btn, .menu-close-btn { right: 28px; }
           .menu-side-text { display: none; }
+          .menu-footer { flex-direction: column; align-items: flex-start; gap: 20px; }
         }
       `}</style>
 
@@ -483,7 +491,7 @@ useEffect(() => {
 
           {/* Vertical side label */}
           <span className="menu-side-text" aria-hidden="true">
-            Creative Studio — Est. 2018
+            Mountain Muse — Est. 2023
           </span>
 
           {/* Close button */}
@@ -507,12 +515,10 @@ useEffect(() => {
             <ul className="nav-list">
               {navLinks.map((item) => (
                 <li key={item.label}>
-                  <div
+                  <Link
+                    href={item.href}
                     className="nav-item-inner"
-                    role="button"
-                    tabIndex={0}
                     onClick={handleClose}
-                    onKeyDown={(e) => e.key === "Enter" && handleClose()}
                   >
                     <span className="nav-link-num">{item.num}</span>
 
@@ -522,7 +528,7 @@ useEffect(() => {
                     </span>
 
                     <span className="nav-link-arrow" aria-hidden="true">→</span>
-                  </div>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -530,14 +536,20 @@ useEffect(() => {
 
           {/* Footer */}
           <div className="menu-footer">
-            <div className="menu-socials">
-              {socials.map((s) => (
-                <a key={s} href="#" onClick={(e) => e.preventDefault()}>
-                  {s}
-                </a>
-              ))}
+            <div className="menu-footer-left">
+              <div className="menu-socials">
+                {socials.map((s) => (
+                  <a key={s} href="#" onClick={(e) => e.preventDefault()}>
+                    {s}
+                  </a>
+                ))}
+              </div>
+              <span className="menu-tagline">Bold Vision. Lasting Impact.</span>
             </div>
-            <span className="menu-tagline">Bold Vision. Lasting Impact.</span>
+
+            <div className="menu-contact-btn">
+              <ButtonPrimary label="Contact Us" href="/contact" color="#ffffff" onClick={handleClose} />
+            </div>
           </div>
         </div>
       )}

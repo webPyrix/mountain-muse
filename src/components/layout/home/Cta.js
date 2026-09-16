@@ -121,7 +121,7 @@ export default function Cta() {
       position: relative;
       z-index: 5;
       text-align: center;
-      padding: 0 40px;
+      padding: 0 var(--site-px, 40px);
       max-width: 900px;
     }
 
@@ -153,6 +153,10 @@ export default function Cta() {
       transform: translateY(20px);
     }
 
+    .cta-sub br {
+      display: inline;
+    }
+
     .cta-btn-wrap {
       display: flex;
       align-items: center;
@@ -160,6 +164,7 @@ export default function Cta() {
       gap: 20px;
       opacity: 0;
       transform: translateY(20px);
+      flex-wrap: wrap;
     }
 
     .cta-btn {
@@ -221,9 +226,6 @@ export default function Cta() {
     }
 
     .cta-scroll-label {
-      font-size: 8px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
       color: rgba(255,255,255,0.3);
     }
 
@@ -249,6 +251,40 @@ export default function Cta() {
     @keyframes scrollPulse {
       0% { top: -100%; }
       100% { top: 100%; }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .top_spacer { padding-top: 0px; }
+      .cta-section { min-height: 620px; }
+      .cta-tag { margin-bottom: 24px; }
+      .cta-headline { margin-bottom: 22px; }
+      .cta-sub { margin-bottom: 40px; }
+      .cta-sub br { display: none; }
+      .cta-btn, .cta-btn-ghost {
+        padding: 15px 32px;
+        letter-spacing: 3px;
+      }
+      .cta-scroll-line { bottom: 28px; }
+    }
+
+    @media (max-width: 600px) {
+      .cta-bg-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+      }
+      .cta-bg-cell:nth-child(5),
+      .cta-bg-cell:nth-child(6) {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .cta-content { padding: 0 24px; }
+      .cta-btn-wrap { gap: 14px; }
+      .cta-btn, .cta-btn-ghost {
+        width: 100%;
+      }
     }
   `}</style>
 
@@ -277,12 +313,14 @@ export default function Cta() {
 
                 <div className="cta-content">
                     <span className={`sub_head cta-tag ${poppins.className}`} id="ctaTag">05 — Begin</span>
-                    <h2 className={`cta-headline ${playfair.className}`} id="ctaHeadline">
-                        Let's make<br />something <em>real.</em>
+                    <h2 className={`cta-headline heading-sub ${playfair.className}`} id="ctaHeadline">
+                        Create With M3.
                     </h2>
-                    <p className={`cta-sub ${poppins.className}`} id="ctaSub">
-                        We take on a small number of projects each season.<br />
-                        If you have a story worth telling in Ladakh — reach out.
+                    <p className={`cta-sub para ${poppins.className}`} id="ctaSub">
+                        Whether it's a campaign, film, or creative project, your vision deserves <br />
+                        more than just a team. It deserves local expertise, creative thinking,<br />
+                         and seamless execution. M3 helps turn ambitious ideas into reality, <br />
+                         with Ladakh as the ultimate backdrop.
                     </p>
                     <div className="cta-btn-wrap" id="ctaBtns">
                         <ButtonPrimary label="Start A project" />
@@ -290,7 +328,7 @@ export default function Cta() {
                 </div>
 
                 <div className="cta-scroll-line" id="ctaScroll">
-                  <span className="scroll-text">Scroll</span>
+                  <span className={`cta-scroll-label sub_head ${poppins.className}`}>Scroll</span>
                         <div className="cta-scroll-bar" />
                 </div>
             </section>

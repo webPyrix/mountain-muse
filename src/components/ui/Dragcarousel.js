@@ -4,12 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
 const IMAGES = [
-  { src: "/images/index/about.jpeg",          caption: "Behind the Lens • Ladakh" },
-  { src: "/images/models/model1.jpg",          caption: "Talent • Movement" },
-  { src: "/images/models/model4.jpg",          caption: "Production • Extreme" },
-  { src: "/images/index/filming/shoot1.mp4",   caption: "On Location • Altitude" },
-  { src: "/images/models/model3.jpg",          caption: "Creative Direction" },
-  { src: "/images/models/model7.PNG",          caption: "Final Frame" },
+  { src: "/images/index/sheep.JPG",          caption: "Palmo Shot By Abin Varghese" },
+  { src: "/images/index/gallery.jpg",          caption: "Pema By Wasim Malik" },
+  { src: "/images/index/insha.jpeg",          caption: "Insha By Abin Varghese" },
+  { src: "/images/index/mingyur.JPG",   caption: "Mingur for rare rabit 2025 summer campaign" },
+  { src: "/images/index/jigmet.webp",          caption: "Jigmet for jigmat couture campaign" },
+  { src: "/images/index/rigzen.jpg",          caption: "Rigzin for Ngary 2024 campaign" },
 ];
 
 const ITEMS = [...IMAGES, ...IMAGES];
@@ -185,13 +185,14 @@ export default function DragCarousel() {
           position: absolute;
           bottom: 56px;
           left: 52px;
-          color: rgba(255,255,255,0.78);
+          color: rgb(255, 255, 255);
           z-index: 3;
           font-size: 11px;
           letter-spacing: 4px;
           text-transform: uppercase;
-          font-family: 'Courier New', monospace;
+          // font-family: 'Courier New', monospace;
           pointer-events: none;
+          font-weight: 500;
         }
         .drag-index {
           position: absolute;
@@ -210,13 +211,22 @@ export default function DragCarousel() {
           left: 50%;
           transform: translateX(-50%);
           z-index: 10;
-          color: rgba(255,255,255,0.22);
+          color: rgba(255, 255, 255, 0.22);
           font-size: 10px;
           letter-spacing: 5px;
           text-transform: uppercase;
           font-family: 'Courier New', monospace;
           padding-bottom: 20px;
           pointer-events: none;
+        }
+
+        @media (max-width: 700px){
+            .drag-carousel-section{
+                height: 60vh;
+              }
+            .drag-carousel-section{
+              margin-bottom: 0px;
+            }
         }
       `}</style>
 
@@ -256,7 +266,7 @@ export default function DragCarousel() {
           })}
         </div>
 
-        <div className="drag-hint">drag to explore</div>
+        {/* <div className="drag-hint">drag to explore</div> */}
       </div>
     </>
   );
