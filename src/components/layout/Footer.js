@@ -12,14 +12,26 @@ const talentLinks = [
   { label: "Male Talents", href: "/models/male" },
   { label: "Female Talents", href: "/models/female" },
   { label: "Become A Model", href: "/become-a-model" },
+  { label: "Contact Us", href: "/contact" },
 ];
 
 const studioLinks = [
   { label: "About M3", href: "/about" },
+  { label: "Our Team", href: "/team" },
   { label: "Line Production", href: "/line-production" },
   { label: "Creative Studio", href: "/creative-studio" },
   { label: "Meet The Founder", href: "/founder" },
 ];
+
+const ArrowIcon = () => (
+  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" style={{ display: "inline-block", verticalAlign: "middle" }}>
+    <path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const currentYear = new Date().getFullYear();
+
+
 
 export default function Footer(){
 
@@ -84,7 +96,7 @@ export default function Footer(){
         gsap.from('.ft-bottom', {
           scrollTrigger: {
             trigger: '.ft-bottom',
-            start: 'top 110%',
+            start: 'top 120%',
             end: 'top 75%',
             scrub: 4,
             invalidateOnRefresh: true,
@@ -138,6 +150,28 @@ export default function Footer(){
 
   }, []);
 
+  
+const getSeasonName = (month) => {
+  if ([11, 0, 1].includes(month)) return "Winter";   // Dec, Jan, Feb
+  if ([2, 3, 4].includes(month)) return "Spring";    // Mar, Apr, May
+  if ([5, 6, 7].includes(month)) return "Summer";    // Jun, Jul, Aug
+  return "Autumn";                                    // Sep, Oct, Nov
+};
+
+const getBookingSeason = () => {
+  const now = new Date();
+  const currentSeason = getSeasonName(now.getMonth());
+
+  const future = new Date(now);
+  future.setMonth(now.getMonth() + 3);
+  const nextSeason = getSeasonName(future.getMonth());
+  const year = future.getFullYear();
+
+  return `${currentSeason} & ${nextSeason} ${year}`;
+};
+
+const bookingSeason = getBookingSeason();
+
 
     return(
         <>
@@ -157,7 +191,7 @@ export default function Footer(){
       </div>
       <div className={`sub_head ft-status-pill ${poppins.className}`}>
         <div className=" ft-status-dot" />
-        Accepting projects — 2026
+        Accepting projects — {currentYear}
       </div>
     </div>
   </div>
@@ -170,10 +204,10 @@ export default function Footer(){
     <p className={`ft-statement ${poppins.className}`}>
       We take on a <strong>small number of projects</strong> each season. Every project gets our full attention from concept to the final frame.
     </p>
-    <div className="ft-season">
-      <div className={`sub_head ft-season-l ${poppins.className}`}>Open for booking</div>
-      <div className={`ft-season-v ${poppins.className}`}>Summer &amp; Autumn 2025</div>
-    </div>
+<div className="ft-season">
+  <div className={`sub_head ft-season-l ${poppins.className}`}>Open for booking</div>
+  <div className={`ft-season-v ${poppins.className}`}>{bookingSeason}</div>
+</div>
   </div>
 
   <div className="ft-vd" />
@@ -184,7 +218,7 @@ export default function Footer(){
       {talentLinks.map(link => (
         <li key={link.label}>
           <Link href={link.href} className={poppins.className}>
-            {link.label} <span className="ft-nav-arr">↗</span>
+            {link.label} <span className="ft-nav-arr"><ArrowIcon /></span>
           </Link>
         </li>
       ))}
@@ -199,7 +233,7 @@ export default function Footer(){
       {studioLinks.map(link => (
         <li key={link.label}>
           <Link href={link.href} className={poppins.className}>
-            {link.label} <span className="ft-nav-arr">↗</span>
+            {link.label} <span className="ft-nav-arr"><ArrowIcon /></span>
           </Link>
         </li>
       ))}
@@ -208,34 +242,39 @@ export default function Footer(){
 
   <div className="ft-vd" />
 
-  <div className="ft-col" id="fc3">
-    <span className={`sub_head ft-col-tag ${poppins.className}`}>Connect</span>
+<div className="ft-col" id="fc3">
+  <span className={`sub_head ft-col-tag ${poppins.className}`}>Connect</span>
 
-    {[
-      { l: "Email",     v: "hello@mountainmuse.in" },
-      { l: "WhatsApp", v: "+91 94191 XXXXX" },
-    ].map(item => (
-      <div className="ft-ci" key={item.l}>
-        <div className={`ft-cl ${poppins.className}`}>{item.l}</div>
-        <div className={`ft-cv ${poppins.className}`}>{item.v}</div>
-      </div>
-    ))}
-
-    <div className="ft-soc ft-soc-inline">
-      {["Instagram","LinkedIn"].map(s => (
-        <a href="#" key={s} className={poppins.className} onClick={(e) => e.preventDefault()}>
-          {s} <span className="ft-nav-arr">↗</span>
-        </a>
-      ))}
-    </div>
+  <div className="ft-ci">
+    <div className={`ft-cl ${poppins.className}`}>Email</div>
+    <a href="mailto:info@mountainmusemanagement.com" className={`ft-cv ${poppins.className}`}>
+      info@mountainmusemanagement.com
+    </a>
   </div>
+
+  <div className="ft-ci">
+    <div className={`ft-cl ${poppins.className}`}>WhatsApp</div>
+    <a href="https://wa.me/917006492274" target="_blank" rel="noopener noreferrer" className={`ft-cv ${poppins.className}`}>
+      +91 70064 92274
+    </a>
+  </div>
+
+  <div className="ft-soc ft-soc-inline">
+    <a href="https://www.instagram.com/mountainmusemgmt/" target="_blank" rel="noopener noreferrer" className={poppins.className}>
+      Instagram <span className="ft-nav-arr"><ArrowIcon /></span>
+    </a>
+    <a href="https://www.facebook.com/profile.php?id=61550630627159" target="_blank" rel="noopener noreferrer" className={poppins.className}>
+      Facebook <span className="ft-nav-arr"><ArrowIcon /></span>
+    </a>
+  </div>
+</div>
 
 </div>
 
   {/* Bottom */}
   <div className="ft-bottom">
-    <span className={`ft-copy ${poppins.className}`}>© 2025 Mountain Muse Management — All rights reserved</span>
-    <span className={`ft-craft ${playfair.className}`}>Crafted in Ladakh.</span>
+    <span className={`ft-copy ${poppins.className}`}>© {currentYear} Mountain Muse Management — All rights reserved</span>
+    <span className={`ft-copy ${poppins.className}`}>Crafted with ❤️ by <a href="https://webpyrix.com" target="_blank">Webpyrix.</a></span>
   </div>
 
 </footer>

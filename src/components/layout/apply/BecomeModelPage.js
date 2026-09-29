@@ -3,11 +3,35 @@ import Link from "next/link";
 import BecomeModelForm from "./BecomeModelForm";
 import { playfair, poppins } from "@/libs/Fonts";
 
-const referenceImages = [
-  {  img: "/images/models/rigzin.jpg" },
-  { img: "/images/models/kunzang.PNG" },
-  { img: "/images/models/lobzang.jpeg" },
-];
+/*
+  ── Reference images for the "How to shoot your photos" card ──
+  Currently showing instructions only, since we don't have real
+  reference photos yet. To bring back the 2x2 image grid later:
+
+  1. Add 3 real reference photos (side shot / front shot / full body)
+     to /public/images/models/, e.g.:
+     side-shot.jpg, front-shot.jpg, full-body-shot.jpg
+
+  2. Uncomment the `referenceImages` array below and fill in the
+     real paths + labels:
+
+     const referenceImages = [
+       { label: "Side Shot", img: "/images/models/side-shot.jpg" },
+       { label: "Front Shot", img: "/images/models/front-shot.jpg" },
+       { label: "Full Body", img: "/images/models/full-body-shot.jpg" },
+     ];
+
+  3. Inside the JSX below, swap the "instructions-only" card content
+     block for the "with images" version (kept commented alongside
+     it) — it lays out 3 image tiles + 1 instructions tile in a 2x2
+     grid, matching the original design.
+*/
+
+// const referenceImages = [
+//   { label: "Side Shot", img: "/images/models/side-shot.jpg" },
+//   { label: "Front Shot", img: "/images/models/front-shot.jpg" },
+//   { label: "Full Body", img: "/images/models/full-body-shot.jpg" },
+// ];
 
 export default function BecomeModelPage() {
   return (
@@ -19,7 +43,7 @@ export default function BecomeModelPage() {
         }
 
         .bmp-layout {
-        max-width: 1440px;
+          max-width: 1440px;
           display: grid;
           grid-template-columns: 1fr 1fr;
           min-height: 100vh;
@@ -68,17 +92,15 @@ export default function BecomeModelPage() {
           align-items: center;
           justify-content: center;
           padding: 30px;
-          
         }
 
         .bmp-card {
-          background: #fdfdfc;
-          box-shadow: 0 40px 80px rgba(0,0,0,0.45);
-          width: 100%;
-          height: 80vh;
-          padding: 30px 16px;
-          margin-top: 20%;
-        }
+            background: #fdfdfc;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.45);
+            width: 100%;
+            max-width: 420px;
+            padding: 44px 40px;
+            }
 
         .bmp-card-grid {
           height: 100%;
@@ -114,42 +136,48 @@ export default function BecomeModelPage() {
           object-fit: cover;
         }
 
-        /* ── The 4th slot — instructions instead of an image ── */
-        .bmp-card-instructions {
+        /* ── Instructions filling the whole card (no images yet) ── */
+        .bmp-card-instructions-full {
+          height: 100%;
           display: flex;
           flex-direction: column;
           justify-content: center;
-          background: rgba(0,0,0,0.1);
-          border-radius: 6px;
-          padding: 22px;
         }
         .bmp-instructions-title {
           color: #111;
-          font-size: 16px;
-          margin-bottom: 14px;
+          font-size: 22px;
+          margin-bottom: 22px;
         }
         .bmp-instructions-body {
           color: rgba(0,0,0,0.6);
-          font-size: 11.5px;
-          line-height: 1.75;
+          font-size: 13px;
+          line-height: 1.9;
         }
         .bmp-instructions-body ul {
-          margin-top: 10px;
+          margin-top: 14px;
         }
         .bmp-instructions-body li {
-          margin-bottom: 6px;
+          margin-bottom: 10px;
+          padding-left: 18px;
+          position: relative;
+        }
+        .bmp-instructions-body li::before {
+          content: '—';
+          position: absolute;
+          left: 0;
+          color: rgba(0,0,0,0.3);
         }
 
         @media (max-width: 980px) {
-          .bmp-layout { grid-template-columns: 1fr; }
-          .bmp-visual {
+        .bmp-layout { grid-template-columns: 1fr; }
+        .bmp-visual {
             position: relative;
             height: auto;
-            order: 1;
+            order: 2;
             padding: 40px var(--site-px, 24px);
-          }
-          .bmp-card { height: 640px; width: 100%; margin-top: 0; }
-          .bmp-form-col { order: 2; padding: 60px var(--site-px, 24px) 80px; max-width: 100%; }
+        }
+        .bmp-card { width: 100%; max-width: 480px; }
+        .bmp-form-col { order: 1; padding: 160px var(--site-px, 24px) 80px; max-width: 100%; }
         }
 
         @media (max-width: 600px){
@@ -159,8 +187,7 @@ export default function BecomeModelPage() {
         }
 
         @media (max-width: 480px) {
-          .bmp-card { padding: 20px; height: 560px; }
-          .bmp-card-grid { gap: 14px; }
+        .bmp-card { padding: 28px 24px; }
         }
       `}</style>
 
@@ -176,9 +203,24 @@ export default function BecomeModelPage() {
           <BecomeModelForm />
         </div>
 
-        {/* Right — sticky white card with 3 example images + instructions */}
+        {/* Right — sticky white card. Currently instructions-only; see comment
+            block at top of file for how to bring back the 3-image grid. */}
         <div className="bmp-visual">
           <div className="bmp-card">
+            <div className={`bmp-card-instructions-full ${poppins.className}`}>
+              <h3 className={`bmp-instructions-title ${playfair.className}`}>How to shoot your photos</h3>
+              <div className="bmp-instructions-body">
+                <ul>
+                  <li>Plain background, natural daylight</li>
+                  <li>No filters or heavy edits</li>
+                  <li>Fitted clothing, hair off the face</li>
+                  <li>Recent photos, taken within 3 months</li>
+                  <li>Include a side shot, a front shot, and a full body shot</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* ── With-images version (kept for later) ──
             <div className={`bmp-card-grid ${poppins.className}`}>
               {referenceImages.map((ex) => (
                 <div key={ex.label} className="bmp-card-item">
@@ -202,6 +244,7 @@ export default function BecomeModelPage() {
                 </div>
               </div>
             </div>
+            */}
           </div>
         </div>
       </div>

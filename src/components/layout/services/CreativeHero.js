@@ -167,7 +167,7 @@ export default function CreativeHero() {
 
       <video
         className="ch-media"
-        src="/videos/shoot1.mp4"
+        src="/videos/creative.mp4"
         autoPlay
         muted
         loop
@@ -189,7 +189,7 @@ export default function CreativeHero() {
         </div>
         <h1 className={`ch-title heading-hero ${playfair.className}`}>
           <span className="ch-line" style={{ display: "block" }}>We turn ideas</span>
-          <span className="ch-line" style={{ display: "block" }}><em>into images.</em></span>
+          <span className="ch-line" style={{ display: "block" }}>into images.</span>
         </h1>
         <p className={`ch-sub para ${poppins.className} ch-line`}>
           Developing and producing visual stories for brands, designers, artists,

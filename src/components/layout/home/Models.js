@@ -1,17 +1,42 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ButtonPrimary } from "@/components/ui/Button";
 import ModelCard from "@/components/ui/ModelCard";
 import { playfair, poppins } from '@/libs/Fonts';
-import { femaleTalents, maleTalents } from "@/app/data/Talents";
+import { API_BASE, IMG_HOST } from "@/libs/api";
 
-const femalePreview = femaleTalents.slice(0, 5);
-const malePreview = maleTalents.slice(0, 5);
 
 export default function Models() {
+  const [femalePreview, setFemalePreview] = useState([]);
+  const [malePreview, setMalePreview] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const modelsSectionRef = useRef(null);
 
   useEffect(() => {
+    const mapTalent = (t) => ({
+      id: t.slug,
+      name: t.name,
+      img: `${IMG_HOST}${t.main_image}`,
+      hoverImg: t.hover_image ? `${IMG_HOST}${t.hover_image}` : `${IMG_HOST}${t.main_image}`,
+    });
+
+    Promise.all([
+      fetch(`${API_BASE}/talents/list.php?gender=female`).then((res) => res.json()),
+      fetch(`${API_BASE}/talents/list.php?gender=male`).then((res) => res.json()),
+    ])
+      .then(([females, males]) => {
+        setFemalePreview(females.slice(0, 5).map(mapTalent));
+        setMalePreview(males.slice(0, 5).map(mapTalent));
+      })
+      .catch((err) => console.error("Failed to load talents:", err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  useEffect(() => {
+    if (loading) return; // wait until cards are actually in the DOM
+
     const femaleCards = document.querySelectorAll('.female-grid .model-card');
     if (femaleCards.length > 0) {
       gsap.fromTo(
@@ -45,9 +70,7 @@ export default function Models() {
         }
       );
     }
-  }, []);
-
-  const modelsSectionRef = useRef(null);
+  }, [loading]);
 
   return (
     <section className="models-section" ref={modelsSectionRef}>
@@ -72,9 +95,10 @@ export default function Models() {
         .models-tag { color: rgba(0,0,0,0.8); }
         .models-title { color: #111; margin-top: 32px;}
         .models-subtitle {
-          max-width: 260px;
+          max-width: 560px;
           color: rgba(0,0,0,0.8);
-          text-align: right;
+          text-align: left;
+          margin-top: 20px;
         }
         .models-grid {
           display: grid;
@@ -98,7 +122,6 @@ export default function Models() {
           justify-content: center;
         }
 
-        /* ── Heading/subtitle stack on smaller screens ── */
         @media (max-width: 900px) {
           .models-header {
             flex-direction: column;
@@ -141,32 +164,37 @@ export default function Models() {
         <div>
           <span className={`sub_head models-tag ${poppins.className}`}>02 — Talent Roster</span>
           <h2 className={`models-title heading-sub ${playfair.className}`}>Our<br />Models.</h2>
-        </div>
-        <p className={`models-subtitle para ${poppins.className}`}>
-          A curated roster of elite talent— selected for presence, versatility,
-          and the rare ability to transcend the frame.
-        </p>
-      </div>
-
-      <div>
-        <div className={`sub_head models-row-label ${poppins.className}`}>FEMALE TALENT</div>
-        <div className="models-grid female-grid">
-          {femalePreview.map((t) => (
-            <ModelCard key={t.id} name={t.name} img={t.img} hoverImg={t.hoverImg} href={`/models/female/${t.id}`} />
-          ))}
+          <p className={`models-subtitle para ${poppins.className}`}>
+            Our exclusive models are curated faces with potential beyond conventional beauty. Distinctive, versatile and authentic, they bring their own presence, personality and perspective to every frame.
+          </p>
         </div>
       </div>
 
-      <div style={{ height: "100px" }} />
-
-      <div>
-        <div className={`sub_head models-row-label ${poppins.className}`}>MALE TALENT</div>
-        <div className="models-grid male-grid">
-          {malePreview.map((t) => (
-            <ModelCard key={t.id} name={t.name} img={t.img} hoverImg={t.hoverImg} href={`/models/male/${t.id}`} />
-          ))}
+      {!loading && femalePreview.length > 0 && (
+        <div>
+          <div className={`sub_head models-row-label ${poppins.className}`}>FEMALE TALENT</div>
+          <div className="models-grid female-grid">
+            {femalePreview.map((t) => (
+              <ModelCard key={t.id} name={t.name} img={t.img} hoverImg={t.hoverImg} href={`/models/female/${t.id}`} />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
+
+      {!loading && femalePreview.length > 0 && malePreview.length > 0 && (
+        <div style={{ height: "100px" }} />
+      )}
+
+      {!loading && malePreview.length > 0 && (
+        <div>
+          <div className={`sub_head models-row-label ${poppins.className}`}>MALE TALENT</div>
+          <div className="models-grid male-grid">
+            {malePreview.map((t) => (
+              <ModelCard key={t.id} name={t.name} img={t.img} hoverImg={t.hoverImg} href={`/models/male/${t.id}`} />
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="vew-more-model-btn">
         <ButtonPrimary label={"Explore All Talents"} color="#000000" href="/models" />

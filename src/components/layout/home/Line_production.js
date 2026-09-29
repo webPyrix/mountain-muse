@@ -266,13 +266,13 @@ export default function Line(){
           End to end production support including <strong>locations, permits, logistics, crew, accommodation, transport, and equipment</strong> support across Ladakh. <br /> <br />
           Ensuring seamless execution at the most remote and demanding landscapes of ladakh
         </p>
-        <ButtonGhost label="Start a project" color="#000000"/>
+        <ButtonGhost href="/line-production" label="Read More" color="#000000"/>
       </div>
     </div>
 
     <div className="lp-right">
       <div className="lp-img">
-        <video src="/images/index/filming/video1.MOV" autoPlay muted loop playsInline />
+        <video src="/images/index/filming/video1.mp4" autoPlay muted loop playsInline />
         {/* <div className="lp-img-overlay" /> */}
         <span className="lp-img-label">Altitude · Terrain</span>
       </div>
@@ -299,7 +299,7 @@ export default function Line(){
         { icon: "◐", name: "Crew &\nCasting" },
         { icon: "◑", name: "Transport &\nLogistics" },
         { icon: "◓", name: "Accommodation\n& Catering" },
-        { icon: "◒", name: "Equipment\nSourcing" },
+        { icon: "◒", name: "Equipment\nSupport" },
       ].map((s, i) => (
         <div key={i} className="lp-service-item">
           <div className="lp-service-icon">{s.icon}</div>

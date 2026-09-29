@@ -203,7 +203,7 @@ export default function AboutHero() {
 
       <video
         className="ah-video"
-        src="/videos/video2.mov"
+        src="/videos/video2.mp4"
         autoPlay
         muted
         loop
@@ -219,13 +219,13 @@ export default function AboutHero() {
           <span className="ah-line" style={{ display: "block" }}>Our Story</span>
         </div>
         <h1 className={`ah-title heading-hero ${playfair.className}`}>
-          <span className="ah-line" style={{ display: "block" }}>A muse,</span>
-          <span className="ah-line" style={{ display: "block" }}><em>born</em> in the mountains.</span>
+          <span className="ah-line" style={{ display: "block" }}>M3 began w/ a simple idea.</span>
         </h1>
         <p className={`ah-sub para ${poppins.className} ah-line`}>
-          From a talent roster in Leh to a full creative studio across the
-          Himalayas — this is how Mountain Muse came to be.
+          There is extraordinary talent in the mountains. 
+          It deserves to be discovered and given a platform.
         </p>
+
       </div>
 
       <div className="ah-scroll">

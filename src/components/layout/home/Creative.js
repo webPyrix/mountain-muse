@@ -223,11 +223,12 @@ export default function creative() {
 
     /* Closing statement */
     .cs-closing {
-      border: 1px solid rgba(235, 235, 190, 0.9);
-      padding: 40px 40px 36px;
+    width: fit-content;
+      border: 1px solid rgba(21, 21, 20, 0.51);
+      padding: 40px 40px 24px;
       margin-bottom: 64px;
       position: relative;
-      background-color: rgba(235, 221, 190, 0.3);
+      // background-color: rgba(235, 221, 190, 0.3);
     }
 
     .cs-closing::before {
@@ -361,11 +362,11 @@ export default function creative() {
                             <div className="cs-visual-bg" />
                             <img
                                 className="cs-visual-img"
-                                src="/images/index/creative.jpg"
+                                src="/images/index/creative.webp"
                                 alt="Creative Studio — Mountain Muse"
                             />
                             <span className={`cs-vertical-label ${poppins.className}`}>Mountain Muse — Creative — Ladakh</span>
-                            <div className={`cs-visual-watermark ${playfair.className}`}>Creative</div>
+                            {/* <div className={`cs-visual-watermark ${playfair.className}`}>Creative</div> */}
                         </div>
                     </div>
 
@@ -380,57 +381,33 @@ export default function creative() {
 
                         <p className={`cs-hook para ${poppins.className}`}>
                             
-                            Creative direction, campaign development, art direction, brand storytelling,
-                            and visual production thoughtfully crafted to create compelling visuals and refined
-                            narratives that resonate beyond the frame.
+                          From concept to final frame, Mountain Muse Management brings together a 
+                          complete creative and production team under one roof: creative directors, 
+                          models, photographers, cinematographers, videographers, stylists, hair & makeup artists, 
+                          line producer, production assistants and more.
+
                         </p>
 
                         <div className="cs-divider">
-                            <span className={`sub_head cs-divider-label ${poppins.className}`}>The Work</span>
+                            <span className={`sub_head cs-divider-label ${poppins.className}`}>M3 House</span>
                             <div className="cs-divider-line" />
                         </div>
 
                         <div className="cs-closing">
                             <p className={`cs-closing-text para ${playfair.className}`}>
-                                We create high altitude campaigns and visual stories across Ladakh’s landscapes, blending creative direction, 
-                                photography, talent coordination, and curated locations into seamless productions for brands, editorials, and digital campaigns.
+                                You bring the vision. We build the production.
                             </p>
                         </div>
 
                         <div className="cs-cta">
-                            <ButtonPrimary label={"Read More"} color="#000000"></ButtonPrimary>
+                            <ButtonPrimary href="/creative-studio" label={"Read More"} color="#000000"></ButtonPrimary>
                         </div>
 
                     </div>
                 </div>
 
                 {/* Offerings Strip */}
-                <div className="cs-offerings">
-                    {[
-                        {
-                            num: "01",
-                            title: <>Full Brand<br /><em>Campaigns</em></>,
-                            desc: "End-to-end brand storytelling. Concept, casting, location strategy, shoot, and delivery. Built around Ladakh, not just in it."
-                        },
-                        {
-                            num: "02",
-                            title: <>Outdoor<br /><em>Films</em></>,
-                            desc: "Documentary and outdoor films. Shot in extreme conditions with crews that know the terrain — because we built them."
-                        },
-                        {
-                            num: "03",
-                            title: <>Visual<br /><em>Content</em></>,
-                            desc: "Campaign-grade stills and motion content for D2C and lifestyle brands. Performance-driven creative with a distinct editorial eye."
-                        },
-                    ].map((item, i) => (
-                        <div key={i} className="cs-offering-item">
-                            <div className={`cs-offering-num ${poppins.className}`}>{item.num}</div>
-                            <h3 className={`cs-offering-title heading-h3 ${playfair.className}`}>{item.title}</h3>
-                            <p className={`cs-offering-desc para ${poppins.className}`}>{item.desc}</p>
-                            <span className="cs-offering-arrow">↗</span>
-                        </div>
-                    ))}
-                </div>
+                
 
             </section>
         </>

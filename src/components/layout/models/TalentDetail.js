@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -8,6 +8,8 @@ import { playfair, poppins } from "@/libs/Fonts";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function TalentDetail({ talent, backHref, genderLabel }) {
+  const [activeIndex, setActiveIndex] = useState(null);
+
   useEffect(() => {
     const items = document.querySelectorAll(".td-reveal");
     if (items.length > 0) {
@@ -35,6 +37,15 @@ export default function TalentDetail({ talent, backHref, genderLabel }) {
     const t = setTimeout(() => ScrollTrigger.refresh(), 500);
     return () => clearTimeout(t);
   }, [talent.id]);
+
+  // Close modal on Escape key
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === "Escape") setActiveIndex(null);
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, []);
 
   const statRows = Object.entries(talent.stats || {}).map(([key, value]) => ({
     label:
@@ -144,31 +155,28 @@ export default function TalentDetail({ talent, backHref, genderLabel }) {
           padding-left: 48px;
         }
 
+        /* ── Masonry via CSS columns — each image keeps its natural aspect ratio ── */
         .td-gallery-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
+          column-count: 2;
+          column-gap: 16px;
         }
 
         .td-gallery-item {
           position: relative;
           width: 100%;
-          aspect-ratio: 3 / 4;
           overflow: hidden;
           border-radius: 4px;
+          margin-bottom: 16px;
+          break-inside: avoid;
+          cursor: pointer;
         }
         .td-gallery-item img {
+          display: block;
           width: 100%;
-          height: 100%;
-          object-fit: cover;
+          height: auto;
           transition: transform 0.9s cubic-bezier(0.23,1,0.32,1);
         }
-        .td-gallery-item:hover img { transform: scale(1.07); }
-
-        .td-gallery-item.wide {
-          grid-column: span 2;
-          aspect-ratio: 16 / 9;
-        }
+        .td-gallery-item:hover img { transform: scale(1.05); }
 
         .td-gallery-index {
           position: absolute;
@@ -180,6 +188,104 @@ export default function TalentDetail({ talent, backHref, genderLabel }) {
           background: rgba(0,0,0,0.35);
           padding: 3px 7px;
           border-radius: 3px;
+        }
+
+        /* ── Lightbox modal ── */
+        .td-modal-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0,0,0,0.88);
+          backdrop-filter: blur(6px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+          padding: 40px 24px;
+          animation: tdFadeIn 0.25s ease;
+        }
+        @keyframes tdFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        .td-modal-img-wrap {
+          position: relative;
+          max-width: 90vw;
+          max-height: 88vh;
+          animation: tdPopIn 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        @keyframes tdPopIn {
+          from { opacity: 0; transform: scale(0.94); }
+          to { opacity: 1; transform: scale(1); }
+        }
+        .td-modal-img-wrap img {
+          display: block;
+          max-width: 90vw;
+          max-height: 88vh;
+          width: auto;
+          height: auto;
+          object-fit: contain;
+          border-radius: 4px;
+        }
+
+        .td-modal-close {
+          position: fixed;
+          top: 24px;
+          right: 28px;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          border: 1px solid rgba(255,255,255,0.2);
+          background: rgba(255,255,255,0.06);
+          color: rgba(255,255,255,0.8);
+          font-size: 22px;
+          line-height: 1;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background 0.2s ease, color 0.2s ease;
+          z-index: 1001;
+        }
+        .td-modal-close:hover {
+          background: rgba(255,255,255,0.14);
+          color: #fff;
+        }
+
+        .td-modal-nav {
+          position: fixed;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 46px;
+          height: 46px;
+          border-radius: 50%;
+          border: 1px solid rgba(255,255,255,0.2);
+          background: rgba(255,255,255,0.06);
+          color: rgba(255,255,255,0.8);
+          font-size: 18px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background 0.2s ease, color 0.2s ease;
+          z-index: 1001;
+        }
+        .td-modal-nav:hover {
+          background: rgba(255,255,255,0.14);
+          color: #fff;
+        }
+        .td-modal-prev { left: 24px; }
+        .td-modal-next { right: 24px; }
+
+        .td-modal-counter {
+          position: fixed;
+          bottom: 24px;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 11px;
+          letter-spacing: 1px;
+          color: rgba(255,255,255,0.5);
+          z-index: 1001;
         }
 
         @media (max-width: 980px) {
@@ -226,14 +332,17 @@ export default function TalentDetail({ talent, backHref, genderLabel }) {
             padding: 40px 0 100px;
             padding-top: 40px;
           }
-          .td-gallery-grid { grid-template-columns: repeat(2, 1fr); }
-          .td-gallery-item.wide { grid-column: span 2; }
+          .td-gallery-grid { column-count: 2; column-gap: 12px; }
+          .td-gallery-item { margin-bottom: 12px; }
+
+          .td-modal-nav { width: 38px; height: 38px; font-size: 15px; }
+          .td-modal-prev { left: 12px; }
+          .td-modal-next { right: 12px; }
         }
 
         @media (max-width: 480px) {
           .td-container { padding: 0 20px; }
-          .td-gallery-grid { grid-template-columns: 1fr; gap: 12px; }
-          .td-gallery-item.wide { grid-column: span 1; }
+          .td-gallery-grid { column-count: 1; }
         }
       `}</style>
 
@@ -271,7 +380,8 @@ export default function TalentDetail({ talent, backHref, genderLabel }) {
               {gallery.map((src, i) => (
                 <div
                   key={i}
-                  className={`td-gallery-item td-reveal ${i === 0 ? "wide" : ""}`}
+                  className="td-gallery-item td-reveal"
+                  onClick={() => setActiveIndex(i)}
                 >
                   <img src={src} alt={`${talent.name} — ${i + 1}`} />
                   <span className={`td-gallery-index ${poppins.className}`}>
@@ -283,6 +393,53 @@ export default function TalentDetail({ talent, backHref, genderLabel }) {
           </div>
         </div>
       </div>
+
+      {activeIndex !== null && (
+        <div className="td-modal-overlay" onClick={() => setActiveIndex(null)}>
+          <button
+            className="td-modal-close"
+            onClick={(e) => { e.stopPropagation(); setActiveIndex(null); }}
+            aria-label="Close"
+          >
+            ×
+          </button>
+
+          {gallery.length > 1 && (
+            <>
+              <button
+                className="td-modal-nav td-modal-prev"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveIndex((prev) => (prev - 1 + gallery.length) % gallery.length);
+                }}
+                aria-label="Previous image"
+              >
+                ‹
+              </button>
+              <button
+                className="td-modal-nav td-modal-next"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveIndex((prev) => (prev + 1) % gallery.length);
+                }}
+                aria-label="Next image"
+              >
+                ›
+              </button>
+            </>
+          )}
+
+          <div className="td-modal-img-wrap" onClick={(e) => e.stopPropagation()}>
+            <img src={gallery[activeIndex]} alt={`${talent.name} — ${activeIndex + 1}`} />
+          </div>
+
+          {gallery.length > 1 && (
+            <span className={`td-modal-counter ${poppins.className}`}>
+              {String(activeIndex + 1).padStart(2, "0")} / {String(gallery.length).padStart(2, "0")}
+            </span>
+          )}
+        </div>
+      )}
     </section>
   );
 }

@@ -8,10 +8,13 @@ const navLinks = [
   { num: "02", label: "Models", sub: "Our talent roster", href: "/models" },
   { num: "03", label: "Line Production", sub: "On-ground support", href: "/line-production" },
   { num: "04", label: "Creative Studio", sub: "Visual storytelling", href: "/creative-studio" },
-  { num: "05", label: "About M3", sub: "Our story & team", href: "/about" },
+  { num: "05", label: "About M3", sub: "Our story", href: "/about" },
 ];
 
-const socials = ["Instagram", "Behance", "LinkedIn", "Twitter"];
+const socials = [
+  { label: "Instagram", href: "https://www.instagram.com/mountainmusemgmt/" },
+  { label: "Facebook", href: "https://www.facebook.com/profile.php?id=61550630627159" },
+];
 
 export default function Menu() {
   const [mounted, setMounted] = useState(false);
@@ -507,7 +510,6 @@ useEffect(() => {
           {/* Top row */}
           <div className="menu-top">
             <span className="menu-top-label">Navigation</span>
-            <span className="menu-top-year">© 2025</span>
           </div>
 
           {/* Nav links */}
@@ -539,8 +541,8 @@ useEffect(() => {
             <div className="menu-footer-left">
               <div className="menu-socials">
                 {socials.map((s) => (
-                  <a key={s} href="#" onClick={(e) => e.preventDefault()}>
-                    {s}
+                  <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer">
+                    {s.label}
                   </a>
                 ))}
               </div>

@@ -10,8 +10,8 @@ gsap.registerPlugin(ScrollTrigger);
 const infoItems = [
   {
     label: "Email",
-    value: "hello@mountainmuse.in",
-    href: "mailto:hello@mountainmuse.in",
+    value: "info@mountainmusemanagement.com",
+    href: "mailto:info@mountainmusemanagement.com",
     icon: (
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
         <path d="M3 5h18v14H3V5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
@@ -21,8 +21,8 @@ const infoItems = [
   },
   {
     label: "Phone / WhatsApp",
-    value: "+91 94191 XXXXX",
-    href: "tel:+9194191XXXXX",
+    value: "+91 70064 92274",
+    href: "https://wa.me/917006492274",
     icon: (
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
         <path
@@ -34,7 +34,7 @@ const infoItems = [
   },
   {
     label: "Studio",
-    value: "Leh, Ladakh — India",
+    value: "Tsaskan Complex Library Road Leh - Ladakh",
     icon: (
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
         <path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
@@ -42,21 +42,13 @@ const infoItems = [
       </svg>
     ),
   },
-  {
-    label: "Hours",
-    value: "Mon – Sat, 10am – 6pm IST",
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M12 7v5l3.2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-  },
+
 ];
 
 const socials = [
   {
     label: "Instagram",
+    href: "https://www.instagram.com/mountainmusemgmt/",
     icon: (
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
         <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" />
@@ -66,22 +58,18 @@ const socials = [
     ),
   },
   {
-    label: "LinkedIn",
+    label: "Facebook",
+    href: "https://www.facebook.com/profile.php?id=61550630627159",
     icon: (
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
         <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M7.5 10v7M7.5 7.2v.1M12 17v-4.5c0-1.4 1-2.5 2.3-2.5 1.2 0 2.2 1 2.2 2.5V17"
-          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-  },
-  {
-    label: "Behance",
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-        <path d="M3 7h6.5M3 12h7.5M3 17h6.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M15 12c0-2.8 1.8-5 4-5s4 2.2 4 5-1.8 5-4 5-4-2.2-4-5z" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
+        <path
+            d="M14 21v-7h2.2l.3-2.8h-2.5V9.4c0-.8.2-1.4 1.4-1.4h1.3V5.3c-.6-.1-1.3-.1-2-.1-2 0-3.4 1.2-3.4 3.5v2.5H9v2.8h2.3V21h2.7z"
+            stroke="currentColor"
+            strokeWidth="1.3"
+            strokeLinejoin="round"
+        />
+        </svg>
     ),
   },
 ];
@@ -324,7 +312,7 @@ export default function ContactPage() {
       {/* Hero */}
       <div className="ct-hero">
         <span className={`sub_head ct-hero-tag ${poppins.className}`}>Get In Touch</span>
-        <h1 className={`ct-hero-title ${playfair.className}`}>Let's create something.</h1>
+        <h1 className={`ct-hero-title ${playfair.className}`}>Work With Us.</h1>
         <p className={`ct-hero-sub ${poppins.className}`}>
           Whether it's a campaign, a production, or a question about working
           with us — we'd love to hear from you. Fill in the form below or
@@ -337,7 +325,6 @@ export default function ContactPage() {
         <div>
           <ContactForm />
         </div>
-
         <div>
           <div className="ct-info-card">
             <div className="ct-info-status">
@@ -363,13 +350,14 @@ export default function ContactPage() {
             <div className="ct-socials">
               {socials.map((s) => (
                 <a
-                  key={s.label}
-                  href="#"
-                  className="ct-social-btn"
-                  onClick={(e) => e.preventDefault()}
-                  aria-label={s.label}
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ct-social-btn"
+                aria-label={s.label}
                 >
-                  {s.icon}
+                {s.icon}
                 </a>
               ))}
             </div>
@@ -379,12 +367,8 @@ export default function ContactPage() {
 
       {/* Full-bleed map */}
       <div className="ct-map">
-        <div className="ct-map-overlay ct-reveal">
-          <span className={`ct-map-overlay-tag ${poppins.className}`}>Find Us</span>
-          <div className={`ct-map-overlay-title ${playfair.className}`}>Leh, Ladakh — India</div>
-        </div>
         <iframe
-          src="https://www.google.com/maps?q=Leh,Ladakh,India&output=embed"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8729.907465635933!2d77.5830508990878!3d34.16345632755272!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38fdeb41f720ec53%3A0x4ccb9f8dd0ad3599!2sMountain%20Muse%20Management!5e0!3m2!1sen!2sin!4v1790600302253!5m2!1sen!2sin"
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
           allowFullScreen
@@ -393,3 +377,4 @@ export default function ContactPage() {
     </section>
   );
 }
+

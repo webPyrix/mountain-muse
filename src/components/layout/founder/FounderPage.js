@@ -44,7 +44,7 @@ export default function FounderPage() {
           color: #f4f4f2;
         }
 
-        /* ── Hero image — compact, blog-style ── */
+        /* Hero image, compact blog style */
         .fp-hero {
           padding: 200px var(--site-px, 52px) 0;
           display: flex;
@@ -86,13 +86,13 @@ export default function FounderPage() {
           color: rgba(255,255,255,0.75);
         }
 
-        /* ── Byline row — meta strip under the hero ── */
+        /* Byline row, meta strip under the hero */
         .fp-byline {
           max-width: 1000px;
           margin: 56px auto 0;
           padding: 0 var(--site-px, 52px);
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(3, 1fr);
           border-top: 1px solid rgba(255,255,255,0.1);
           border-bottom: 1px solid rgba(255,255,255,0.1);
         }
@@ -111,34 +111,11 @@ export default function FounderPage() {
           font-size: 13px;
         }
 
-        /* ── Article — two-column magazine layout ── */
+        /* Article, single column */
         .fp-article {
           max-width: 1000px;
           margin: 0 auto;
           padding: 100px var(--site-px, 52px) 180px;
-          display: grid;
-          grid-template-columns: 160px 1fr;
-          gap: 64px;
-        }
-
-        .fp-rail {
-          position: sticky;
-          top: 140px;
-          height: fit-content;
-          display: flex;
-          flex-direction: column;
-          gap: 40px;
-        }
-        .fp-rail-brands-label {
-          color: rgba(255,255,255,0.4);
-          margin-bottom: 14px;
-          display: block;
-        }
-        .fp-rail-brand {
-          font-size: 11px;
-          color: rgba(255,255,255,0.55);
-          padding: 7px 0;
-          border-bottom: 1px solid rgba(255,255,255,0.06);
         }
 
         .fp-content { min-width: 0; }
@@ -160,7 +137,31 @@ export default function FounderPage() {
         .fp-block { margin-bottom: 76px; }
         .fp-block:last-child { margin-bottom: 0; }
 
-        /* Statement — big pull-quote with oversized quote glyph */
+        /* Brands worked with, inline in the story */
+        .fp-brands {
+          margin-top: 36px;
+          padding-top: 28px;
+          border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        .fp-brands-label {
+          color: rgba(255,255,255,0.4);
+          display: block;
+          margin-bottom: 16px;
+        }
+        .fp-brands-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px 8px;
+        }
+        .fp-brand {
+          font-size: 12px;
+          color: rgba(255,255,255,0.7);
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 100px;
+          padding: 7px 16px;
+        }
+
+        /* Statement, big pull quote with oversized quote glyph */
         .fp-statement {
           position: relative;
           margin: 70px 0;
@@ -214,40 +215,22 @@ export default function FounderPage() {
           display: block;
         }
 
-@media (max-width: 900px) {
-  .fp-hero { padding: 150px var(--site-px, 24px) 0; }
-  .fp-hero-img { width: 100%; height: 56vh; border-radius: 10px; }
-  .fp-byline { grid-template-columns: repeat(2, 1fr); margin-top: 40px; }
-  .fp-byline-item:nth-child(2) { border-right: none; }
-  .fp-byline-item:nth-child(3), .fp-byline-item:nth-child(4) {
-    border-top: 1px solid rgba(255,255,255,0.1);
-  }
-  .fp-article {
-    grid-template-columns: 1fr;
-    padding-top: 70px;
-    gap: 40px;
-  }
-  .fp-rail {
-    position: static;
-  }
-  .fp-rail-brands {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 8px;
-  }
-  .fp-rail-brands-label { width: 100%; margin-bottom: 4px; }
-  .fp-rail-brand {
-    border-bottom: none;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 100px;
-    padding: 6px 14px;
-  }
-  .fp-statement, .fp-quote { margin: 50px 0; }
-}
+        @media (max-width: 900px) {
+          .fp-hero { padding: 150px var(--site-px, 24px) 0; }
+          .fp-hero-img { width: 100%; height: 56vh; border-radius: 10px; }
+          .fp-byline { grid-template-columns: repeat(2, 1fr); margin-top: 40px; }
+          .fp-byline-item:nth-child(2) { border-right: none; }
+          .fp-byline-item:nth-child(3), .fp-byline-item:nth-child(4) {
+            border-top: 1px solid rgba(255,255,255,0.1);
+          }
+          .fp-article { padding-top: 70px; }
+          .fp-statement, .fp-quote { margin: 50px 0; }
+        }
 
         @media (max-width: 480px) {
           .fp-hero-img { height: 46vh; }
           .fp-quote { padding: 28px 24px; }
+          .fp-brand { padding: 6px 14px; font-size: 11px; }
         }
       `}</style>
 
@@ -256,7 +239,7 @@ export default function FounderPage() {
         <span className={`sub_head fp-hero-tag ${poppins.className}`}>Founder</span>
         <h1 className={`fp-hero-name heading-hero ${playfair.className}`}>{founder.name}</h1>
         <div className="fp-hero-img">
-          <img src={founder.portrait} alt={founder.name} />
+          <img src="/images/founder/pema-detail.webp" alt={founder.name} />
           <span className={`sub_head fp-hero-caption ${poppins.className}`}>Photographed in Leh, Ladakh</span>
         </div>
       </div>
@@ -275,31 +258,15 @@ export default function FounderPage() {
           <span className="sub_head fp-byline-label">Experience</span>
           <span className="fp-byline-value">10+ Years</span>
         </div>
-        <div className="fp-byline-item">
-          <span className="sub_head fp-byline-label">Brands Worked With</span>
-          <span className="fp-byline-value">{founder.brands.length}+</span>
-        </div>
+
       </div>
 
       {/* Article */}
       <div className="fp-article">
-
-        {/* Sticky rail — brand list */}
-        {/* Sticky rail — brand list */}
-        <div className={`fp-rail ${poppins.className}`}>
-        <div className="fp-rail-brands">
-            <span className="sub_head fp-rail-brands-label">Selected Work</span>
-            {founder.brands.map((b) => (
-            <div key={b} className="fp-rail-brand">{b}</div>
-            ))}
-        </div>
-        </div>
-
-        {/* Main column */}
         <div className={`fp-content ${poppins.className}`}>
 
           <div className="fp-block fp-reveal">
-            <span className={`sub_head fp-eyebrow ${poppins.className}`}>01 — Origin</span>
+            <span className={`sub_head fp-eyebrow ${poppins.className}`}>01. Origin</span>
             <h2 className={`fp-section-title heading-sub ${playfair.className}`}>
               From Zanskar to the world of fashion.
             </h2>
@@ -312,7 +279,7 @@ export default function FounderPage() {
               While pursuing her studies in Bangalore, modelling simply found her.
               She was scouted on the streets of Bangalore by a member of the team
               at ZARA. What began as an unexpected opportunity soon became
-              something she genuinely enjoyed — being in front of the camera,
+              something she genuinely enjoyed, being in front of the camera,
               expressing herself through movement, fashion and photographs.
             </p>
           </div>
@@ -325,17 +292,28 @@ export default function FounderPage() {
             <p className="para">
               Over the years, Pema worked with leading modelling agencies,
               photographers, designers and brands, building experience across
-              fashion, advertising and commercial work — the full list sits
-              alongside this article.
+              fashion, advertising and commercial work.
             </p>
             <p className="para">
               After completing her studies in Bangalore, Pema moved to Delhi to
               continue pursuing modelling for a year or two. She spent several
               years learning not only what it meant to be in front of the
-              camera, but also what happens behind it — the people, processes,
+              camera, but also what happens behind it: the people, processes,
               relationships and opportunities that bring a creative project
               together.
             </p>
+
+            <div className="fp-brands">
+              <span className="sub_head fp-brands-label">Selected Work</span>
+              <div className="fp-brands-list">
+                {founder.brands.map((b) => (
+                  <span key={b} className="fp-brand">{b}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="fp-block fp-reveal">
             <p className="para">Eventually, the mountains called her home.</p>
             <p className="para">Pema returned to Ladakh with a growing realisation.</p>
           </div>
@@ -357,7 +335,7 @@ export default function FounderPage() {
             <p className="para">
               At the same time, she saw an increasing number of brands,
               photographers, filmmakers and production teams coming to Ladakh
-              to create. And she began to wonder — what if the two could meet?
+              to create. And she began to wonder, what if the two could meet?
             </p>
             <p className="para">
               What if the young faces, artists and creative talent from Ladakh
@@ -369,14 +347,14 @@ export default function FounderPage() {
           </div>
 
           <div className="fp-block fp-reveal">
-            <span className={`sub_head fp-eyebrow ${poppins.className}`}>02 — Vision</span>
+            <span className={`sub_head fp-eyebrow ${poppins.className}`}>02. Vision</span>
             <h2 className={`fp-section-title heading-sub ${playfair.className}`}>
               Building a bridge.
             </h2>
             <p className="para">
               For Pema, Mountain Muse is more than a modelling agency. It is a
-              bridge between Ladakh and the wider creative industry — a platform
-              where local talent can be discovered, developed and represented,
+              bridge between Ladakh and the wider creative industry, a platform
+              where local talent can be discovered, developed and represented
               and where brands, photographers, filmmakers and creative teams can
               discover the people and stories that make the region unique.
             </p>
@@ -388,7 +366,7 @@ export default function FounderPage() {
               and beyond.
             </p>
             <p className="para">
-              But her vision goes further than modelling — she wants to build a
+              But her vision goes further than modelling. She wants to build a
               creative ecosystem where models, photographers, filmmakers, hair
               &amp; makeup artists, stylists, artists, designers and other young
               creatives from the region can find opportunities and grow
@@ -408,11 +386,11 @@ export default function FounderPage() {
             <p className="para">
               And perhaps that is what makes the vision behind Mountain Muse so
               personal. Pema's own journey began unexpectedly, far from home,
-              when someone saw potential in her — and that simply gave her a
+              when someone saw potential in her and that simply gave her a
               confidence in life she needed.
             </p>
             <p className="para">
-              Today, she wants to be that person for someone else — to look at
+              Today, she wants to be that person for someone else, to look at
               a young face from a village in Ladakh and say: there is something
               here. Let's see where it can take you.
             </p>
@@ -420,7 +398,7 @@ export default function FounderPage() {
 
           <div className="fp-closing fp-reveal">
             <h2 className={`fp-closing-title heading-sub ${playfair.className}`}>
-              From one unexpected opportunity —<br />to a platform for many more.
+              From one unexpected opportunity<br />to a platform for many more.
             </h2>
             <p className="para">
               Mountain Muse is her way of giving back to the place she comes

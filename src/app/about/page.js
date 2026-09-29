@@ -32,7 +32,6 @@ export default function AboutPage() {
       <AboutHero />
       
       <AboutStory />
-      <FounderSection />
       
       <Footer />
     </>

@@ -9,9 +9,9 @@ import { ButtonPrimary, ButtonGhost } from "@/components/ui/Button";
 import { playfair, poppins } from '@/libs/Fonts';
 
 const slides = [
-    { label: "01 — MODELS", title: "Models.", tagline: "Distinctive faces from across Ladakh." },
-    { label: "02 — PRODUCTION", title: "Production.", tagline: "End to end line production support" },
-    { label: "03 — Creative", title: "Creative.", tagline: "Creative direction and visual storytelling" },
+    { label: "01 — MODELS", title: "Models.", tagline: "Distinctive faces from across Ladakh.", buttonLabel: "Explore Talent", buttonHref: "/models" },
+    { label: "02 — LINE PRODUCTION", title: "Line Production.", tagline: "End to end line production support", buttonLabel: "Our Production Services", buttonHref: "/line-production" },
+    { label: "03 — Creative Studio", title: "Creative Studio.", tagline: "Creative direction and visual storytelling", buttonLabel: "See The Studio", buttonHref: "/creative-studio" },
 ];
 
 export default function Hero() {
@@ -94,7 +94,7 @@ export default function Hero() {
                 const next = (activeIdx + 1) % slides.length;
                 setActiveIdx(next);
             }
-        }, 10000);
+        }, 3000);
     }, [activeIdx, transitioning]);
 
     const clearAutoTimer = useCallback(() => {
@@ -381,7 +381,7 @@ export default function Hero() {
                   height: 180%;
                   object-fit: cover;
                   position: absolute;
-                  top: -10%;
+                  top: -30%;
                   left: 0;
                   will-change: transform;
                   object-position: center;
@@ -507,7 +507,7 @@ export default function Hero() {
                                 <p className={`para ${poppins.className}`}>
                                     {slides[activeIdx].tagline}.
                                 </p>
-                                <ButtonGhost label={"Explore Work"} />
+                                <ButtonGhost label={slides[activeIdx].buttonLabel} href={slides[activeIdx].buttonHref} />
                             </motion.div>
                         </AnimatePresence>
                     </div>
@@ -552,7 +552,7 @@ export default function Hero() {
                     </p>
                 </div>
                 <div className="photo_sec">
-                    <img src="/images/index/about.jpeg" />
+                    <img src="/images/index/about.webp" />
                 </div>
             </section>
         </>

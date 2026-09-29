@@ -4,12 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
 const IMAGES = [
-  { src: "/images/index/sheep.JPG",          caption: "Palmo Shot By Abin Varghese" },
-  { src: "/images/index/gallery.jpg",          caption: "Pema By Wasim Malik" },
-  { src: "/images/index/insha.jpeg",          caption: "Insha By Abin Varghese" },
-  { src: "/images/index/mingyur.JPG",   caption: "Mingur for rare rabit 2025 summer campaign" },
+  { src: "/images/index/sheep.webp",          caption: "Palmo Shot By Abin Varghese" },
+  { src: "/images/index/gallery.webp",          caption: "Pema By Wasim Malik" },
+  { src: "/images/index/insha.webp",          caption: "Insha By Abin Varghese" },
+  { src: "/images/index/mingyur.webp",   caption: "Mingur for rare rabit 2025 summer campaign" },
   { src: "/images/index/jigmet.webp",          caption: "Jigmet for jigmat couture campaign" },
-  { src: "/images/index/rigzen.jpg",          caption: "Rigzin for Ngary 2024 campaign" },
+  { src: "/images/index/rigzen.webp",          caption: "Rigzin for Ngari 2024 campaign" },
 ];
 
 const ITEMS = [...IMAGES, ...IMAGES];

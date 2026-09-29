@@ -167,7 +167,7 @@ export default function LineProductionHero() {
 
       <video
         className="lph-media"
-        src="/images/index/filming/shoot3.mp4"
+        src="/images/index/filming/line-hero.mp4"
         autoPlay
         muted
         loop
@@ -186,12 +186,12 @@ export default function LineProductionHero() {
         </div>
         <h1 className={`lph-title heading-hero ${playfair.className}`}>
           <span className="lph-line" style={{ display: "block" }}>Your vision.</span>
-          <span className="lph-line" style={{ display: "block" }}><em>Our terrain.</em></span>
+          <span className="lph-line" style={{ display: "block" }}>Our terrain.</span>
         </h1>
         <p className={`lph-sub para ${poppins.className} lph-line`}>
           Professional line production and on-ground production support across
           Ladakh — for brands, agencies, production houses, photographers and
-          filmmakers from India and around the world.
+          filmmakers from across the world.
         </p>
       </div>
 

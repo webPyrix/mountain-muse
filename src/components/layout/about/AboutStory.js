@@ -195,7 +195,7 @@ export default function AboutStory() {
           bottom: 0;
           left: 0;
           width: 50%;
-          height: 300px;
+          height: 340px;
           overflow: hidden;
           border: 8px solid #fff;
           box-shadow: 0 24px 50px rgba(0,0,0,0.14);
@@ -232,7 +232,7 @@ export default function AboutStory() {
         /* Verticals */
         .as-verticals-intro {
           padding: 170px var(--site-px, 52px) 0;
-          max-width: 1400px;
+          max-width: 1100px;
           margin: 0 auto;
           text-align: center;
         }
@@ -339,9 +339,7 @@ export default function AboutStory() {
       <div className="as-intro">
         <span className={`sub_head as-intro-tag ${poppins.className}`}>Mountain Muse Management — Est. 2023</span>
         <p className={`as-intro-lead heading-sub ${playfair.className}`}>
-          There is incredible talent in the mountains. It deserves to be seen.
-          Mountain Muse began with that idea, and grew into three connected
-          worlds built around the same belief in people, creativity and place.
+          Founded in 2023 and formally registered in 2024, Mountain Muse began as Ladakh’s first modelling and talent management company, created to discover, develop and represent talent from Ladakh and the wider Himalayan region.
         </p>
       </div>
 
@@ -353,13 +351,20 @@ export default function AboutStory() {
             It started with <em>talent.</em>
           </h3>
           <div className={`as-spread-body ${poppins.className}`}>
-            <p className="para">The first chapter of Mountain Muse was about faces — discovering people who had never imagined themselves in front of a professional camera, and finding individuality in unexpected places.</p>
-            <p className="para">Founded in 2023 and formally registered in 2024, Mountain Muse began as Ladakh's first modelling and talent management company, building a professional roster for fashion, advertising and commercial work.</p>
+            <p className="para">The first chapter of Mountain Muse was about faces.
+            About discovering people who had never imagined themselves in front of a professional camera.
+            About finding individuality in unexpected places.
+            About creating opportunities for models from Ladakh and the Himalayas to enter an industry that had traditionally felt far away.
+            
+            </p>
+            <p className="para">Mountain Muse began scouting fresh faces, developing talent and building a professional roster for fashion, advertising, editorial, commercial and creative projects. But the purpose was never simply to create a list of models.
+            It was to create a platform.
+            A platform where emerging talent could be discovered, developed and connected to opportunities  while brands and creative teams could discover a different kind of beauty and a new generation of Himalayan faces.</p>
           </div>
         </div>
         <div className="as-spread-images">
-          <div className="as-img-main"><img src="/images/models/jigmet.PNG" alt="" /></div>
-          <div className="as-img-offset"><img src="/images/models/mingyur.JPG" alt="" /></div>
+          <div className="as-img-main"><img src="/images/about/linepro4.webp" alt="" /></div>
+          <div className="as-img-offset"><img src="/images/about/linepro1.webp" alt=""/></div> 
         </div>
       </div>
 
@@ -376,16 +381,17 @@ export default function AboutStory() {
           </div>
         </div>
         <div className="as-spread-images">
-          <div className="as-img-main"><img src="/images/models/rigzin.jpg" alt="" /></div>
-          <div className="as-img-offset"><img src="/images/index/sheep.JPG" alt="" /></div>
+          <div className="as-img-main"><img src="/images/about/linepro.webp" alt="" /></div>
+          <div className="as-img-offset"><img src="/images/about/line.webp" alt="" /></div>
+          
         </div>
       </div>
 
       {/* Full-bleed break */}
       <div className="as-break">
-        <img src="/images/index/creative.jpg" alt="" />
+        <img src="/images/about/landscape.webp" alt="" />
         <div className="as-break-overlay">
-          <span className={`sub_head as-break-caption ${poppins.className}`}>From production to creation</span>
+          <span className={`sub_head as-break-caption ${poppins.className}`}>From production to creative studio</span>
         </div>
       </div>
 
@@ -394,16 +400,16 @@ export default function AboutStory() {
         <div className="as-spread-text">
           <span className={`sub_head as-spread-tag ${poppins.className}`}>03 — Full circle</span>
           <h3 className={`as-spread-title heading-sub ${playfair.className}`}>
-            From production to <em>creation.</em>
+            From production to <em>creative studio.</em>
           </h3>
           <div className={`as-spread-body ${poppins.className}`}>
-            <p className="para">With experience came a deeper understanding of the creative process. We had the talent, we knew the locations, we understood production — so we began to ask what it would look like to bring it all together.</p>
+            <p className="para">With experience came a deeper understanding of the creative process. We had the talent, we knew the locations, we understood production so we began to ask what it would look like to bring it all together.</p>
             <p className="para">That question became the Mountain Muse Creative Studio: photography, film, fashion and visual storytelling, from first concept to final expression.</p>
           </div>
         </div>
         <div className="as-spread-images">
-          <div className="as-img-main"><img src="/images/models/lobzang.jpeg" alt="" /></div>
-          <div className="as-img-offset"><img src="/images/index/insha.jpeg" alt="" /></div>
+          <div className="as-img-main"><img src="/images/about/linepro2.webp" alt="" /></div>
+          <div className="as-img-offset"><img src="/images/about/linepro3.webp" alt="" /></div>
         </div>
       </div>
 
@@ -411,10 +417,10 @@ export default function AboutStory() {
       <div className="as-verticals-intro">
         <span className={`sub_head ${poppins.className}`} style={{ color: "rgba(0,0,0,0.5)" }}>Today</span>
         <h2 className={`as-verticals-title heading-sub ${playfair.className}`} style={{ marginTop: "20px" }}>
-          Three worlds, <em>one vision.</em>
+          Today, Mountain Muse Management is built around three interconnected verticals
         </h2>
         <p className={`para ${poppins.className}`} style={{ maxWidth: "560px", margin: "0 auto", color: "rgba(0,0,0,0.65)" }}>
-          Each began from a different need. All are connected by the same purpose —
+          Each began from a different need. All are connected by the same purpose
           to bring the right people, ideas and places together.
         </p>
       </div>
@@ -427,34 +433,6 @@ export default function AboutStory() {
             <p className={`as-v-desc para ${poppins.className}`}>{v.desc}</p>
           </div>
         ))}
-      </div>
-
-      {/* Place — image background */}
-      <div className="as-place">
-        <img src="/images/index/about.jpeg" alt="" />
-        <div className="as-place-inner">
-          <span className={`sub_head as-place-tag ${poppins.className}`}>Ladakh Is Our Home</span>
-          <h2 className={`as-place-title heading-sub ${playfair.className}`}>
-            Beyond the postcard.
-          </h2>
-          <p className={`as-place-body para ${poppins.className}`}>
-            Ladakh has become known around the world for its extraordinary
-            landscapes. But we believe there is a much larger story to tell —
-            about its people, its talent and its contemporary identity.
-          </p>
-          <p className={`as-place-quote heading-h3 ${playfair.className}`}>
-            "We see Ladakh as a creative destination — a place where fashion
-            can be made, films can be shot, and new stories can begin."
-          </p>
-        </div>
-      </div>
-
-      {/* Closing */}
-      <div className="as-closing">
-        <h2 className={`as-closing-title heading-sub ${playfair.className}`}>
-          It started with talent.<br />It grew through production.<br />It is evolving through storytelling.
-        </h2>
-        <p className={`as-closing-body para ${poppins.className}`}>Three verticals. One home. One vision.</p>
       </div>
     </section>
   );

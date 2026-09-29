@@ -321,18 +321,16 @@ useEffect(() => {
 
       {/* ── Desktop version (>=1200px + fine pointer) ── */}
       <div className="tv2-base">
-        <img src="/images/models/rigzin.jpg" alt="Men" />
+        <img src="/images/split/male.jpg" alt="Men" />
       </div>
       <div ref={clipRef} className="tv2-clip">
-        <img src="/images/models/kunzang.PNG" alt="Women" />
+        <img src="/images/split/female.jpg" alt="Women" />
       </div>
       <div className="tv2-labels">
         <div className={`tv2-label-col ${side === "female" ? "dim" : ""}`}>
-          <span className={`tv2-eyebrow ${poppins.className}`}>05 Talents</span>
           <h2 className={`tv2-label ${playfair.className}`}>Men</h2>
         </div>
         <div className={`tv2-label-col ${side === "male" ? "dim" : ""}`}>
-          <span className={`tv2-eyebrow ${poppins.className}`}>05 Talents</span>
           <h2 className={`tv2-label ${playfair.className}`}>Women</h2>
         </div>
       </div>

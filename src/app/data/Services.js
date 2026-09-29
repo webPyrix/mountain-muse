@@ -11,7 +11,7 @@ export const creativeServices = [
   },
   {
     num: "03",
-    title: "Fashion & Editorial",
+    title: "Fashion and Editorial",
     desc: "Producing fashion editorials, designer campaigns, lookbooks and visual stories.",
   },
   {
@@ -21,7 +21,7 @@ export const creativeServices = [
   },
   {
     num: "05",
-    title: "Film & Video",
+    title: "Film and Video",
     desc: "Commercials, fashion films, branded films, digital films and cinematic content.",
   },
   {
@@ -36,7 +36,7 @@ export const creativeServices = [
   },
   {
     num: "08",
-    title: "Location & Talent",
+    title: "Location and Talent",
     desc: "Connecting creative concepts with distinctive faces and extraordinary places.",
   },
 ];
@@ -53,12 +53,12 @@ export const lineProductionServices = [
   },
   {
     num: "02",
-    title: "Permits & Local Coordination",
+    title: "Permits and Local Coordination",
     desc: "We assist with relevant permissions, local coordination and production requirements for filming and photography in the region.",
   },
   {
     num: "03",
-    title: "Casting & Talent",
+    title: "Casting and Talent",
     desc: "Through our talent network, we source models, actors, performers and faces for campaigns, films, editorials and commercial productions.",
   },
   {
@@ -68,12 +68,12 @@ export const lineProductionServices = [
   },
   {
     num: "05",
-    title: "Transportation & Logistics",
+    title: "Transportation and Logistics",
     desc: "From vehicles and equipment movement to accommodation, catering and daily logistics, we coordinate the details that keep your shoot moving.",
   },
   {
     num: "06",
-    title: "Equipment & Production Resources",
+    title: "Equipment and Production Resources",
     desc: "We help source locally available equipment and production resources according to the requirements of each project.",
   },
   {

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ButtonPrimary } from "@/components/ui/Button";
@@ -8,7 +8,49 @@ import { creativeServices } from "@/app/data/Services";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// ── Masonry images ──
+// `shape` controls the height (width is always the same):
+// "tall" | "portrait" | "square" | "landscape"
+// Swap the `img` paths (and names) for your Creative Studio photos.
+const masonryImages = [
+  { name: "",    img: "/images/creative/creative.webp",    shape: "landscape" },
+  { name: "",     img: "/images/creative/creative11.webp",     shape: "portrait" },
+  { name: "",     img: "/images/creative/creative3.webp",     shape: "square" },
+  { name: "", img: "/images/creative/creative4.webp",      shape: "portrait" },
+  { name: "",      img: "/images/creative/creative5.webp",    shape: "tall" },
+  { name: "",  img: "/images/creative/creative12.webp",     shape: "square" },
+  { name: "",   img: "/images/creative/creative7.webp",       shape: "landscape" },
+  { name: "",   img: "/images/creative/creative8.webp",     shape: "tall" },
+  { name: "",  img: "/images/creative/creative13.webp",    shape: "landscape" },
+  { name: "", img: "/images/creative/creative10.webp",  shape: "portrait" },
+  { name: "",  img: "/images/creative/creative2.webp",     shape: "square" },
+];
+
+// Top offset (px) for each column — makes the top edge uneven.
+const COLUMN_OFFSETS = [0, 80, 32, 112];
+
+// 4 columns on desktop, 3 on tablet, 2 on mobile
+function useColumnCount() {
+  const [cols, setCols] = useState(4);
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth;
+      setCols(w <= 640 ? 2 : w <= 980 ? 3 : 4);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+  return cols;
+}
+
 export default function CreativeStudioBody() {
+  const cols = useColumnCount();
+
+  // Distribute images across columns (left → right, row by row)
+  const columns = Array.from({ length: cols }, () => []);
+  masonryImages.forEach((item, i) => columns[i % cols].push({ ...item, index: i }));
+
   useEffect(() => {
     const items = document.querySelectorAll(".csb-reveal");
     if (items.length > 0) {
@@ -36,6 +78,37 @@ export default function CreativeStudioBody() {
     const t = setTimeout(() => ScrollTrigger.refresh(), 500);
     return () => clearTimeout(t);
   }, []);
+
+  // Masonry reveal — re-runs when the column count changes
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tiles = gsap.utils
+        .toArray(".csb-masonry-item")
+        .sort((a, b) => a.dataset.index - b.dataset.index);
+
+      if (tiles.length > 0) {
+        gsap.fromTo(
+          tiles,
+          { y: 60, opacity: 0, clipPath: "inset(12% 0% 0% 0%)" },
+          {
+            y: 0,
+            opacity: 1,
+            clipPath: "inset(0% 0% 0% 0%)",
+            duration: 1.1,
+            ease: "power3.out",
+            stagger: 0.07,
+            scrollTrigger: {
+              trigger: ".csb-masonry",
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
+    });
+    ScrollTrigger.refresh();
+    return () => ctx.revert();
+  }, [cols]);
 
   return (
     <section className="csb-section">
@@ -141,47 +214,128 @@ export default function CreativeStudioBody() {
           margin: 0 auto 18px;
         }
 
-        /* ── Image + video break ── */
-        .csb-break {
+        /* ── Masonry (Pinterest style, uneven top + bottom) ── */
+        .paddings{
+          --offset-scale: 1;
           max-width: 1200px;
           margin: 90px auto 0;
           padding: 0 var(--site-px, 52px);
-          display: grid;
-          grid-template-columns: 1.3fr 1fr;
-          gap: 20px;
+          gap: 16px;
+          text-align: center;
         }
-        .csb-break-main, .csb-break-side {
+
+        .paddings h2{
+            margin-bottom: 50px;
+        }
+        .csb-masonry {
+          display: flex;
+          align-items: flex-start;
+          gap: 16px;
+        }
+        .csb-masonry-col {
+          flex: 1;
+          min-width: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          margin-top: calc(var(--offset, 0) * var(--offset-scale) * 1px);
+        }
+        .csb-masonry-item {
           position: relative;
-          overflow: hidden;
+          width: 100%;
           border-radius: 4px;
+          overflow: hidden;
+          display: block;
+          background: #eee;
+          cursor: pointer;
         }
-        .csb-break-main { height: 480px; }
-        .csb-break-side { height: 480px; }
-        .csb-break-main img, .csb-break-main video,
-        .csb-break-side img, .csb-break-side video {
+        .csb-masonry-item.tall      { aspect-ratio: 3 / 4.6; }
+        .csb-masonry-item.portrait  { aspect-ratio: 3 / 4; }
+        .csb-masonry-item.square    { aspect-ratio: 1 / 1; }
+        .csb-masonry-item.landscape { aspect-ratio: 4 / 3; }
+
+        .csb-masonry-item img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-        }
-        .csb-break-main::after {
-          content: '';
-          position: absolute; inset: 0;
-          background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 50%);
-        }
-        .csb-break-caption {
-          position: absolute;
-          bottom: 32px;
-          left: 32px;
-          right: 32px;
-          z-index: 2;
-        }
-        .csb-break-eyebrow {
-          color: rgba(255,255,255,0.7);
-          margin-bottom: 12px;
           display: block;
+          transform: scale(1.02);
+          filter: saturate(0.85);
+          transition: transform 1.1s cubic-bezier(0.23,1,0.32,1), filter 0.8s ease;
         }
-        .csb-break-title {
-          color: #f7f6f3;
+        .csb-masonry-item:hover img {
+          transform: scale(1.1);
+          filter: saturate(1.1);
+        }
+
+        .csb-masonry-item::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.05) 45%, transparent 70%);
+          opacity: 0.55;
+          transition: opacity 0.6s ease;
+          pointer-events: none;
+        }
+        .csb-masonry-item:hover::after { opacity: 1; }
+
+        .csb-masonry-item::before {
+          content: '';
+          position: absolute;
+          inset: 12px;
+          border: 1px solid rgba(255,255,255,0.55);
+          border-radius: 2px;
+          opacity: 0;
+          transform: scale(1.04);
+          transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.23,1,0.32,1);
+          z-index: 2;
+          pointer-events: none;
+        }
+        .csb-masonry-item:hover::before {
+          opacity: 1;
+          transform: scale(1);
+        }
+
+        .csb-masonry-num {
+          position: absolute;
+          top: 20px;
+          left: 22px;
+          z-index: 3;
+          color: rgba(255,255,255,0.85);
+          opacity: 0;
+          transform: translateY(-6px);
+          transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .csb-masonry-item:hover .csb-masonry-num {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .csb-masonry-name {
+          position: absolute;
+          bottom: 18px;
+          left: 22px;
+          z-index: 3;
+          color: #fff;
+          transform: translateY(4px);
+          transition: transform 0.6s cubic-bezier(0.23,1,0.32,1);
+        }
+        .csb-masonry-item:hover .csb-masonry-name { transform: translateY(-4px); }
+
+        .csb-masonry-arrow {
+          position: absolute;
+          bottom: 18px;
+          right: 22px;
+          z-index: 3;
+          color: #fff;
+          font-size: 16px;
+          opacity: 0;
+          transform: translate(-6px, 6px);
+          transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .csb-masonry-item:hover .csb-masonry-arrow {
+          opacity: 1;
+          transform: translate(0, 0);
         }
 
         /* ── Beyond the postcard ── */
@@ -238,8 +392,7 @@ export default function CreativeStudioBody() {
 
         @media (max-width: 980px) {
           .csb-services-grid { grid-template-columns: repeat(2, 1fr); }
-          .csb-break { grid-template-columns: 1fr; }
-          .csb-break-main, .csb-break-side { height: 320px; }
+          .csb-masonry { margin-top: 70px; --offset-scale: 0.8; }
         }
         @media (max-width: 640px) {
           .csb-services-grid { grid-template-columns: 1fr; }
@@ -247,7 +400,11 @@ export default function CreativeStudioBody() {
           .csb-services-grid { padding: 0px var(--site-px, 52px) 110px; }
           .csb-intro {padding-top: 100px}
           .csb-bespoke { margin-top: 0 }
-          .csb-break {margin-top: 20px;}
+          .csb-masonry { gap: 10px; margin-top: 40px; --offset-scale: 0.5; }
+          .csb-masonry-col { gap: 10px; }
+          .csb-masonry-name { left: 14px; bottom: 12px; }
+          .csb-masonry-num, .csb-masonry-arrow { display: none; }
+          .csb-masonry-item::before { inset: 8px; }
           .csb-closing { margin-top: 100px }
           .csb-service-item { padding: 40px 15px;}
         }
@@ -256,16 +413,18 @@ export default function CreativeStudioBody() {
       {/* Intro */}
       <div className="csb-intro">
         <p className={`csb-intro-lead heading-sub ${playfair.className}`}>
-          Mountain Muse Creative Studio is our creative arm — developing and
-          producing visual stories for brands, designers, artists, photographers,
-          filmmakers and creative teams.
+          Your brand. Our creative ecosystem.
         </p>
         <p className={`csb-intro-body para ${poppins.className}`}>
-          We work across fashion, advertising, lifestyle, travel, tourism and
-          culture, creating visual content that is contemporary, distinctive and
-          rooted in a strong sense of place. From the first idea to the final
-          frame, we bring together creative direction, concept, talent, locations,
-          photography, film and production into one cohesive story.
+          From concept to final frame, Mountain Muse Management brings together a complete creative and production team under one roof: creative directors, models, photographers, cinematographers, videographers, stylists, hair & makeup artists, line producer, production assistants and more.
+        
+            Whether you’re launching a collection, creating a campaign or looking to capture your brand in Ladakh, we manage the entire process , from creative direction and casting to locations, styling, production, shoot execution and final deliverables.
+
+            Simply send us your garments, products or campaign brief. 
+            We build the team, manage the production and bring your vision to life.
+
+            No need to source multiple teams or coordinate different vendors. One creative partner, one seamless production, from start to finish.
+
         </p>
       </div>
 
@@ -304,18 +463,33 @@ export default function CreativeStudioBody() {
         </p>
       </div>
 
-      {/* Image + video break */}
-      <div className="csb-break">
-        <div className="csb-break-main">
-          <video src="/images/index/filming/shoot2.mp4" autoPlay muted loop playsInline />
-          <div className="csb-break-caption">
-            <span className={`sub_head csb-break-eyebrow ${poppins.className}`}>On Location</span>
-            <h3 className={`csb-break-title heading-h3 ${playfair.className}`}>Local knowledge, creative network.</h3>
+      {/* Masonry gallery — each column starts at a different height */}
+      <div className="paddings">
+        <h2 className={`csb-bespoke-title heading-sub ${playfair.className}`}>Our Work</h2>
+      <div className="csb-masonry">
+        {columns.map((col, c) => (
+          <div
+            key={c}
+            className="csb-masonry-col"
+            style={{ "--offset": COLUMN_OFFSETS[c % COLUMN_OFFSETS.length] }}
+          >
+            {col.map((item) => (
+              <div
+                key={`${item.name}-${item.index}`}
+                data-index={item.index}
+                className={`csb-masonry-item ${item.shape}`}
+              >
+                <img src={item.img} alt={item.name} loading="lazy" />
+                <span className={`sub_head csb-masonry-num ${poppins.className}`}>
+                  {String(item.index + 1).padStart(2, "0")}
+                </span>
+                <span className={`sub_head csb-masonry-name ${poppins.className}`}>{item.name}</span>
+                <span className="csb-masonry-arrow">↗</span>
+              </div>
+            ))}
           </div>
-        </div>
-        <div className="csb-break-side">
-          <img src="/images/index/creative.jpg" alt="Ladakh creative production" />
-        </div>
+        ))}
+      </div>
       </div>
 
       {/* Beyond the postcard */}
@@ -343,9 +517,9 @@ export default function CreativeStudioBody() {
       {/* Closing */}
       <div className="csb-closing">
         <h2 className={`csb-closing-title heading-sub ${playfair.className}`}>
-          Rooted in Ladakh. <em>Created for everywhere.</em>
+          A Creative Force from the Mountains 🏔️
         </h2>
-        <ButtonPrimary label="Explore Our Work" href="/portfolio" color="#ffffff" />
+        <ButtonPrimary label="Contact Us" href="/contact" color="#ffffff" />
       </div>
     </section>
   );

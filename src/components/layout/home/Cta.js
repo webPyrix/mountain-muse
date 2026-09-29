@@ -21,21 +21,11 @@ export default function Cta() {
                 .to('#ctaBtns', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5')
                 .to('#ctaScroll', { opacity: 1, duration: 0.6, ease: 'power2.out' }, '-=0.3');
 
-            // BG cell scale
-            gsap.fromTo('.cta-bg-cell img',
+            // BG image slow scale
+            gsap.fromTo('.cta-bg img',
                 { scale: 1.12 },
-                { scale: 1.04, duration: 8, ease: 'power1.inOut', stagger: 0.3 }
+                { scale: 1.02, duration: 8, ease: 'power1.inOut' }
             );
-
-            // Cycle active cell
-            const cells = document.querySelectorAll('.cta-bg-cell');
-            let activeIdx = 0;
-            cells[0].classList.add('active');
-            const cycleInterval = setInterval(() => {
-                cells[activeIdx].classList.remove('active');
-                activeIdx = (activeIdx + 1) % cells.length;
-                cells[activeIdx].classList.add('active');
-            }, 2800);
 
             // CTA headline parallax
             gsap.to('#ctaHeadline', {
@@ -45,7 +35,6 @@ export default function Cta() {
             });
 
             return () => {
-                clearInterval(cycleInterval);
                 ScrollTrigger.getAll().forEach(t => t.kill());
             };
         };
@@ -81,33 +70,20 @@ export default function Cta() {
       justify-content: center;
     }
 
-    .cta-bg-grid {
+    .cta-bg {
       position: absolute;
       inset: 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-      gap: 3px;
+      overflow: hidden;
       z-index: 1;
     }
 
-    .cta-bg-cell {
-      overflow: hidden;
-      position: relative;
-    }
-
-    .cta-bg-cell img {
+    .cta-bg img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.22;
-      transition: opacity 1.8s ease, transform 8s ease;
-      transform: scale(1.08);
-    }
-
-    .cta-bg-cell.active img {
+      object-position: center;
       opacity: 0.38;
-      transform: scale(1.0);
+      transform: scale(1.12);
     }
 
     .cta-overlay {
@@ -268,17 +244,6 @@ export default function Cta() {
       .cta-scroll-line { bottom: 28px; }
     }
 
-    @media (max-width: 600px) {
-      .cta-bg-grid {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
-      }
-      .cta-bg-cell:nth-child(5),
-      .cta-bg-cell:nth-child(6) {
-        display: none;
-      }
-    }
-
     @media (max-width: 480px) {
       .cta-content { padding: 0 24px; }
       .cta-btn-wrap { gap: 14px; }
@@ -288,25 +253,8 @@ export default function Cta() {
     }
   `}</style>
 
-                <div className="cta-bg-grid" id="bgGrid">
-                    <div className="cta-bg-cell" id="cell0">
-                        <img src="/images/index/about.jpeg" alt="" />
-                    </div>
-                    <div className="cta-bg-cell" id="cell1">
-                        <img src="/images/models/model1.jpg" alt="" />
-                    </div>
-                    <div className="cta-bg-cell" id="cell2">
-                        <img src="/images/models/model4.jpg" alt="" />
-                    </div>
-                    <div className="cta-bg-cell" id="cell3">
-                        <img src="/images/models/model3.jpg" alt="" />
-                    </div>
-                    <div className="cta-bg-cell" id="cell4">
-                        <img src="/images/models/model7.PNG" alt="" />
-                    </div>
-                    <div className="cta-bg-cell" id="cell5">
-                        <img src="/images/models/model2.jpeg" alt="" />
-                    </div>
+                <div className="cta-bg">
+                    <img src="/images/index/cta.webp" alt="" />
                 </div>
 
                 <div className="cta-overlay" />
@@ -323,7 +271,7 @@ export default function Cta() {
                          with Ladakh as the ultimate backdrop.
                     </p>
                     <div className="cta-btn-wrap" id="ctaBtns">
-                        <ButtonPrimary label="Start A project" />
+                        <ButtonPrimary href="/contact" label="Start A project" />
                     </div>
                 </div>
 

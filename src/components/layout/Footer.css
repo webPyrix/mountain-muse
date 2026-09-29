@@ -288,10 +288,14 @@
     }
 
     .ft-copy {
-      font-size: 9px;
+      font-size: 9.5px;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: rgba(255,255,255,0.8);
+    }
+
+    .ft-copy a{
+      color: #14cf93;
     }
 
     .ft-craft {
